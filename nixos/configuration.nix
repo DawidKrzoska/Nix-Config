@@ -102,12 +102,10 @@
   # services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
@@ -123,7 +121,8 @@
     pavucontrol
     pulseaudio
     mpd
-    ];
+  ];
+  fonts.packages = [ pkgs.nerd-fonts.fira-code ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -137,7 +136,5 @@
 
   services = { mpd.enable = true; };
 
-  fonts.packages = with pkgs; [ nerdfonts ];
-
-  system.stateVersion = "23.11";
+  system.stateVersion = "25.11";
 }

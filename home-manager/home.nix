@@ -12,8 +12,8 @@
     ./shell/cli.nix
     ./shell/shell.nix
     ./shell/tmux.nix
-    ./modules/fonts.nix
-    ./desktop/fonts.nix
+    #    ./modules/fonts.nix
+    #    ./desktop/fonts.nix
     ./desktop/wofi.nix
     ./desktop/hyprland/hyprland.nix
     ./nixvim/default.nix
@@ -57,5 +57,5 @@
   systemd.user.startServices = "sd-switch";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.11";
+  home.stateVersion = "25.11";
 }

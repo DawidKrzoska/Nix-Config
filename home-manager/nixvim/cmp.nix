@@ -65,7 +65,7 @@
                   Watch = "󰥔",
                   Package = "",
                   Copilot = "",
-                  Codeium = "",
+                  Windsurf = "",
                   TabNine = "",
                 }
 

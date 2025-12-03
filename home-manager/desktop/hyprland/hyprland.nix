@@ -55,11 +55,6 @@
           new_optimizations = true;
           ignore_opacity = true;
         };
-        drop_shadow = true;
-        shadow_range = 12;
-        shadow_offset = "1 1";
-        "col.shadow" = "rgb(b5179e)";
-        "col.shadow_inactive" = "rgb(480ca8)";
       };
       animations = { enabled = true; };
 
@@ -67,9 +62,9 @@
     };
 
     extraConfig = ''
-      monitor=DP-3,2560x1440,-2560x0,1
-      monitor=HDMI-A-1,1920x1080,0x0,1
-      monitor=Unknown-1,disable,1
-    '';
+      monitor=DP-2,2560x1440,-2560x0,1
+      #monitor=HDMI-1,1920x1080,0x0,1
+      '';
+      #monitor=Unknown-1,disable,1 '';
   };
 }
