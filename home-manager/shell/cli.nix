@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 let
 
 in {
@@ -16,6 +16,7 @@ in {
     killall
     rustup
     neofetch
+    inputs.codex-cli-nix.packages.x86_64-linux.default
   ];
 
 }
