@@ -9,8 +9,8 @@ in {
         [ "~/wolfar-nix-config/home-manager/desktop/hyprland/wallpapers/Cry.jpg" ];
 
       wallpaper = [
-        "DP-3, ~/wolfar-nix-config/home-manager/desktop/hyprland/wallpapers/Cry.jpg"
-        "HDMI-A-1, ~/wolfar-nix-config/home-manager/desktop/hyprland/wallpapers/Cry.jpg"
+        "DP-2, ~/wolfar-nix-config/home-manager/desktop/hyprland/wallpapers/Cry.jpg"
+        "HDMI-1, ~/wolfar-nix-config/home-manager/desktop/hyprland/wallpapers/Cry.jpg"
       ];
     };
   };
