@@ -1,5 +1,60 @@
-To build system config 
+# wolfar-nix-config
 
+Flake-based NixOS + Home Manager configuration for the `wolfar@nixos` workstation.  
+The system boots straight into Hyprland via `greetd`, ships with a curated CLI toolset, and provides a fully managed Neovim (via `nixvim`) for day-to-day development.
+
+## Highlights
+- **Single flake entrypoint** – `flake.nix` pins `nixpkgs`, `home-manager`, `nixvim`, and `codex-cli-nix` for reproducible builds.
+- **NixOS host `nixos`** – declarative networking, PipeWire audio, AMD GPU, Tuigreet login manager, and essential desktop packages/fonts.
+- **Home Manager profile** – zsh + starship shell, Alacritty terminal, Wofi launcher, tmux (Catppuccin theme), Hyprland with Waybar/Hyprpaper, and a curated set of CLI utilities.
+- **Neovim powered by nixvim** – Catppuccin theme, Telescope, Neo-tree, LSP servers (nixd, rust-analyzer, clangd, bashls), Tree-sitter, LuaSnip + nvim-cmp, null-ls tooling (nixfmt, markdownlint, ltrs).
+- **Media controls & shortcuts** – Hyprland keybinds for workspace management, multimedia keys, and mpd/playerctl integration.
+
+## Repository layout
+| Path | Purpose |
+| --- | --- |
+| `flake.nix` | Declares inputs and exposes `nixosConfigurations.nixos` and `homeConfigurations.wolfar@nixos`. |
+| `nixos/` | Base system (`configuration.nix`), `greet.nix` Tuigreet session, and generated `hardware-configuration.nix`. |
+| `home-manager/home.nix` | Home Manager entrypoint that pulls in shell, desktop, and nixvim modules. |
+| `home-manager/shell/*.nix` | CLI packages (`cli.nix`), shell defaults (`shell.nix`), Alacritty, and tmux configuration. |
+| `home-manager/desktop/` | Hyprland session (`hyprland.nix` + binds/paper/waybar) and Wofi setup. |
+| `home-manager/nixvim/` | Modular Neovim configuration (options, plugins, keymaps, tooling). |
+
+## Requirements
+- A NixOS machine (or VM) capable of running flakes.  
+- `nix` 2.18+ with `nix-command` and `flakes` enabled (already enabled inside this configuration).  
+- For Home Manager only, you can use any distro with the Home Manager standalone installer, but this repo assumes the `x86_64-linux` platform.
+
+## Usage
+Clone the repo somewhere accessible to root (e.g. `/etc/nixos` or `~/wolfar-nix-config`).
+
+### Build or switch the entire system
+```bash
 sudo nixos-rebuild switch --flake .#nixos
+```
+Use `nixos-rebuild test --flake .#nixos` first if you want to validate changes without rebooting, and `nixos-rebuild dry-run --flake .#nixos` to check for upcoming rebuilds.
 
+### Activate only the Home Manager profile
+```bash
 home-manager switch --flake .#wolfar@nixos
+```
+This is handy for iterating on user programs (zsh shell, tmux, Hyprland/Waybar/Hyprpaper, NixVim, etc.) without rebuilding the whole OS.
+
+### Update inputs
+```bash
+nix flake update
+```
+After updating the lock file, rebuild the system and/or home profile to apply the changes. Review upstream release notes (especially when moving between NixOS channels) before committing the updated `flake.lock`.
+
+## Customization tips
+- **Host/user names** – Adjust `networking.hostName` in `nixos/configuration.nix` and the keys inside `nixosConfigurations` / `homeConfigurations` in `flake.nix` if you deploy to a differently named machine.
+- **System packages/services** – Extend `environment.systemPackages` or add more modules under `nixos/` for hardware-specific tweaks.
+- **CLI toolset** – Append packages to `home-manager/shell/cli.nix`; this module already includes ripgrep, fd, gcc, tmux, gh, rustup, and the Codex CLI package.
+- **Hyprland session** – Edit `home-manager/desktop/hyprland/*` to change keybinds, monitor layout, wallpaper paths, or Waybar styling/widgets.
+- **Neovim** – Each plugin/topic lives in its own file under `home-manager/nixvim/`; add/remove imports in `default.nix` to control your setup.
+- **Wallpapers** – Hyprpaper expects files under `home-manager/desktop/hyprland/wallpapers`; update the paths if you move the repository or use different monitors.
+
+## Troubleshooting & notes
+- Tuigreet uses Hyprland as the default session (`nixos/greet.nix`). If Hyprland fails to start, you can switch TTYs and run `sudo systemctl status greetd` for logs.
+- Remember to keep `system.stateVersion` and `home.stateVersion` aligned with the NixOS release you originally installed to avoid surprises during upgrades.
+- Because the repo pins nixpkgs to `nixos-25.11`, you may need to re-run `nix flake update` when 25.11 stabilizes or when you intentionally move to a newer channel.
