@@ -58,6 +58,7 @@
 
   # TODO: Set your hostname
   networking.hostName = "nixos";
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   # TODO: This is just an example, be sure to use whatever bootloader you prefer
   boot.loader.systemd-boot.enable = true;
@@ -73,7 +74,7 @@
       # Be sure to change it (using passwd) after rebooting!
       ignoreShellProgramCheck = true;
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" ];
+      extraGroups = [ "wheel" "networkmanager" "docker" ];
       shell = pkgs.zsh;
     };
   };
@@ -121,6 +122,7 @@
     pavucontrol
     pulseaudio
     mpd
+    docker-compose
   ];
   fonts.packages = [ pkgs.nerd-fonts.fira-code ];
 
@@ -135,6 +137,7 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   services = { mpd.enable = true; };
+  virtualisation.docker.enable = true;
 
   system.stateVersion = "25.11";
 }

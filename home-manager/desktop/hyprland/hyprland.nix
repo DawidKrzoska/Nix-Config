@@ -62,9 +62,9 @@
     };
 
     extraConfig = ''
-      monitor=DP-2,2560x1440,-2560x0,1
-      #monitor=HDMI-1,1920x1080,0x0,1
-      '';
-      #monitor=Unknown-1,disable,1 '';
+      monitor=DP-1,2560x1440,0x0,1
+      monitor=HDMI-A-1,1920x1080,-1920x0,1
+    '';
+    #monitor=Unknown-1,disable,1 '';
   };
 }
