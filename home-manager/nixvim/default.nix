@@ -14,6 +14,7 @@
 
   programs.nixvim = {
     enable = true;
+    plugins.web-devicons.enable = true;
     colorschemes.catppuccin = {
       enable = true;
       settings = {

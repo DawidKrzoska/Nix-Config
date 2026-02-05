@@ -19,7 +19,7 @@
     ./nixvim/default.nix
     #./music.nix
 
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
 
   ];
 
