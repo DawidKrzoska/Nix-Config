@@ -18,6 +18,7 @@ in {
     gh
     killall
     rustup
+    nodejs
     neofetch
     inputs.codex-cli-nix.packages.x86_64-linux.default
   ];
