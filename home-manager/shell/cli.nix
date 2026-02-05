@@ -3,11 +3,13 @@ let
 
 in {
   home.packages = with pkgs; [
+    gnumake
     playerctl
     ripgrep
     fd
     gcc
     go
+    golangci-lint
     wget
     unzip
     tmux
