@@ -6,6 +6,7 @@
       servers = {
         bashls.enable = true;
         clangd.enable = true;
+        gopls.enable = true;
         nixd.enable = true;
         rust-analyzer.enable = true;
         rust-analyzer.installRustc = false;

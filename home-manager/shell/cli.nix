@@ -7,6 +7,7 @@ in {
     ripgrep
     fd
     gcc
+    go
     wget
     unzip
     tmux
