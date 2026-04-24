@@ -1,4 +1,8 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, pkgs, ... }:
+let
+  theme = config.wolfar.theme;
+  stripHash = color: lib.removePrefix "#" color;
+in {
   imports = [ ./binds.nix ./waybar.nix ./hyprpaper.nix ];
 
   wayland.windowManager.hyprland = {
@@ -17,7 +21,9 @@
         gaps_in = 15;
         gaps_out = 20;
         border_size = 2;
-        "col.active_border" = "rgb(b5179e)";
+        "col.active_border" =
+          "rgb(${stripHash theme.semantic.accent}) rgb(${stripHash theme.semantic.highlight}) 45deg";
+        "col.inactive_border" = "rgb(${stripHash theme.semantic.border})";
       };
 
       group = { groupbar.font_size = 11; };
@@ -44,10 +50,10 @@
       };
 
       decoration = {
-        active_opacity = 0.97;
-        inactive_opacity = 0.77;
+        active_opacity = theme.semantic.opacity.activeWindow;
+        inactive_opacity = theme.semantic.opacity.inactiveWindow;
         fullscreen_opacity = 1.0;
-        rounding = 7;
+        rounding = theme.semantic.radius.window;
         blur = {
           enabled = true;
           size = 5;

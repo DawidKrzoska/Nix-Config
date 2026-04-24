@@ -1,4 +1,6 @@
-{
+{ config, ... }: let
+  theme = config.wolfar.theme;
+in {
   imports = [
     ./telescope.nix
     ./neo-tree.nix
@@ -18,7 +20,7 @@
     colorschemes.catppuccin = {
       enable = true;
       settings = {
-        flavour = "mocha";
+        flavour = theme.flavor;
         transparentBackground = true;
         showBufferEnd = true;
         integrations = {

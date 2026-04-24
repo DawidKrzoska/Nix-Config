@@ -65,6 +65,7 @@
   boot.loader.efi.canTouchEfiVariables = false;
   hardware.graphics.enable = true;
   hardware.bluetooth.enable = true;
+  programs.dconf.enable = true;
   services.blueman.enable = true;
 
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.

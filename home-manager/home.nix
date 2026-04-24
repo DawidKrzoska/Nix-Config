@@ -7,14 +7,13 @@
     # inputs.nix-colors.homeManagerModule
 
     # You can also split up your configuration and import pieces of it here:
-    #./nvim.nix
+    ./modules/theme.nix
     ./shell/alacritty.nix
     ./shell/cli.nix
     ./shell/shell.nix
     ./shell/tmux.nix
-    #    ./modules/fonts.nix
-    #    ./desktop/fonts.nix
     ./desktop/theme.nix
+    ./desktop/flameshot.nix
     ./desktop/wofi.nix
     ./desktop/hyprland/hyprland.nix
     ./nixvim/default.nix

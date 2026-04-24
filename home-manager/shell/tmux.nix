@@ -1,4 +1,7 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }:
+let
+  theme = config.wolfar.theme;
+in {
   programs.tmux = {
     enable = true;
     mouse = true;
@@ -12,6 +15,7 @@
         plugin = tmuxPlugins.catppuccin;
         extraConfig = ''
           set-option -g status-position top
+          set -g @catppuccin_flavor "${theme.flavor}"
           set -g @catppuccin_window_left_separator ""
           set -g @catppuccin_window_right_separator " "
           set -g @catppuccin_window_middle_separator " █"

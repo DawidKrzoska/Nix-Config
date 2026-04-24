@@ -1,8 +1,9 @@
-{ outputs, config, lib, pkgs, inputs, desktopTheme, ... }:
+{ config, lib, pkgs, inputs, ... }:
 let
   # Dependencies
   pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
-  colors = desktopTheme.catppuccin;
+  theme = config.wolfar.theme;
+  colors = theme.palette;
   playerctl = lib.getExe pkgs.playerctl;
   jq = lib.getExe pkgs.jq;
   youtubeMusicCli =
@@ -125,7 +126,7 @@ in {
     # w x y z -> top, right, bottom, left
     style = ''
       * {
-        font-family: "${desktopTheme.font}";
+        font-family: "DejaVu Sans", "Symbols Nerd Font Mono";
         font-size: 13px;
         padding: 0;
         margin: 0;
@@ -135,17 +136,17 @@ in {
 
       window#waybar {
         background: transparent;
-        color: ${colors.text};
+        color: ${theme.semantic.text};
       }
 
       tooltip {
-        background: ${colors.mantle};
-        border: 1px solid ${colors.surface1};
+        background: ${theme.semantic.overlayBackground};
+        border: 1px solid ${theme.semantic.border};
         border-radius: 12px;
       }
 
       tooltip label {
-        color: ${colors.text};
+        color: ${theme.semantic.text};
       }
 
       .modules-left,
@@ -164,10 +165,10 @@ in {
       #clock {
         margin: 0 6px;
         padding: 9px 14px;
-        border: 1px solid ${colors.surface1};
-        border-radius: 14px;
-        background: alpha(${colors.base}, 0.82);
-        color: ${colors.text};
+        border: 1px solid ${theme.semantic.border};
+        border-radius: ${toString theme.semantic.radius.panel}px;
+        background: alpha(${theme.semantic.panelBackground}, ${toString theme.semantic.opacity.panel});
+        color: ${theme.semantic.text};
       }
 
       #workspaces {
@@ -177,32 +178,32 @@ in {
       #workspaces button {
         margin: 0 4px;
         padding: 5px 10px;
-        border-radius: 10px;
-        color: ${colors.subtext0};
+        border-radius: ${toString theme.semantic.radius.workspace}px;
+        color: ${theme.semantic.mutedText};
         background: transparent;
       }
 
       #workspaces button:hover {
-        background: alpha(${colors.surface0}, 0.9);
-        color: ${colors.text};
+        background: alpha(${theme.semantic.hoverBackground}, 0.9);
+        color: ${theme.semantic.text};
       }
 
       #workspaces button.active {
-        background: ${colors.accent};
+        background: ${theme.semantic.accent};
         color: ${colors.crust};
       }
 
       #workspaces button.urgent {
-        background: ${colors.red};
+        background: ${theme.semantic.danger};
         color: ${colors.crust};
       }
 
       #custom-media {
-        color: ${colors.green};
+        color: ${theme.semantic.success};
       }
 
       #cpu {
-        color: ${colors.yellow};
+        color: ${theme.semantic.warning};
       }
 
       #memory {
@@ -210,7 +211,7 @@ in {
       }
 
       #pulseaudio {
-        color: ${colors.sky};
+        color: ${theme.semantic.info};
       }
 
       #bluetooth {
@@ -218,7 +219,7 @@ in {
       }
 
       #network {
-        color: ${colors.sapphire};
+        color: ${theme.semantic.highlight};
       }
 
       #clock {

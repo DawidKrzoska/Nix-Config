@@ -1,8 +1,9 @@
 {
-  desktopTheme,
+  config,
   ...
 }: let
-  colors = desktopTheme.catppuccin;
+  theme = config.wolfar.theme;
+  colors = theme.palette;
 in {
   programs.wofi = {
     enable = true;
@@ -22,17 +23,17 @@ in {
 
     style = ''
       * {
-        font-family: "${desktopTheme.font}";
+        font-family: "DejaVu Sans", "Symbols Nerd Font Mono";
         font-size: 15px;
       }
 
       window {
         margin: 0;
         padding: 18px;
-        border: 1px solid ${colors.border};
-        border-radius: 18px;
-        background-color: rgba(24, 24, 37, 0.88);
-        color: ${colors.text};
+        border: 1px solid ${theme.semantic.border};
+        border-radius: ${toString theme.semantic.radius.menu}px;
+        background-color: alpha(${theme.semantic.overlayBackground}, ${toString theme.semantic.opacity.overlay});
+        color: ${theme.semantic.text};
       }
 
       #outer-box {
@@ -45,19 +46,19 @@ in {
         padding: 14px 16px;
         border: 1px solid ${colors.surface1};
         border-radius: 14px;
-        background-color: rgba(49, 50, 68, 0.96);
-        color: ${colors.text};
+        background-color: alpha(${colors.surface0}, 0.96);
+        color: ${theme.semantic.text};
       }
 
       #input:focus {
-        border-color: ${colors.accent};
+        border-color: ${theme.semantic.accent};
       }
 
       #inner-box {
         margin: 0;
         padding: 4px;
         border-radius: 16px;
-        background-color: rgba(30, 30, 46, 0.58);
+        background-color: alpha(${theme.semantic.panelBackground}, 0.58);
       }
 
       #scroll {
@@ -74,8 +75,8 @@ in {
       }
 
       #entry:selected {
-        border-color: ${colors.accent};
-        background-color: rgba(49, 50, 68, 0.92);
+        border-color: ${theme.semantic.accent};
+        background-color: alpha(${colors.surface0}, 0.92);
       }
 
       #img {
@@ -87,7 +88,7 @@ in {
       }
 
       #entry:selected #text {
-        color: ${colors.text};
+        color: ${theme.semantic.text};
       }
     '';
   };
