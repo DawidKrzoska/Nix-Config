@@ -2,11 +2,15 @@
 let
   # Dependencies
   pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
-  hyprland = config.wayland.windowManager.hyprland.package;
   colors = desktopTheme.catppuccin;
+  playerctl = lib.getExe pkgs.playerctl;
+  jq = lib.getExe pkgs.jq;
+  youtubeMusicCli =
+    lib.getExe inputs.youtube-music-cli.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
   # Let it try to start a few more times
   systemd.user.services.waybar = { Unit.StartLimitBurst = 30; };
+  services.playerctld.enable = true;
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -18,7 +22,7 @@ in {
         spacing = 0;
         position = "top";
         layer = "top";
-        modules-left = [ "hyprland/workspaces" "custom/spotify" ];
+        modules-left = [ "hyprland/workspaces" "custom/media" ];
 
         modules-center = [ "cpu" "memory" "pulseaudio" ];
 
@@ -37,11 +41,36 @@ in {
         cpu = { format = "  {usage}%"; };
         memory = { format = "  {percentage}%"; };
 
-        "custom/spotify" = {
-          exec =
-            "/usr/bin/python3 /full/path/to/mediaplayer.py --player spotify";
-          format = "{}  ";
-          return-type = "json";
+        "custom/media" = {
+          interval = 2;
+          exec = "${pkgs.writeShellScript "waybar-media" ''
+            state_file="$HOME/.youtube-music-cli/player-state.json"
+
+            if [ ! -f "$state_file" ]; then
+              exit 0
+            fi
+
+            track="$(${jq} -r '
+              if .currentTrack == null then
+                empty
+              else
+                ((.currentTrack.artists // []) | map(.name) | join(", ")) as $artists
+                | if $artists == "" then .currentTrack.title else "\($artists) - \(.currentTrack.title)" end
+              end
+            ' "$state_file" 2>/dev/null)"
+
+            if [ -z "$track" ] || [ "$track" = "null" ]; then
+              exit 0
+            fi
+
+            printf '󰎆 %s\n' "$track"
+          ''}";
+          on-click = "${youtubeMusicCli} pause || ${youtubeMusicCli} resume";
+          on-click-right = "${youtubeMusicCli} skip";
+          on-click-middle = "${youtubeMusicCli} back";
+          max-length = 48;
+          format = "{}";
+          tooltip = false;
         };
         mpd = {
           format =
@@ -111,7 +140,7 @@ in {
       }
 
       #workspaces,
-      #custom-spotify,
+      #custom-media,
       #cpu,
       #memory,
       #pulseaudio,
@@ -152,7 +181,7 @@ in {
         color: ${colors.crust};
       }
 
-      #custom-spotify {
+      #custom-media {
         color: ${colors.green};
       }
 

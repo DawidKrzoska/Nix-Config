@@ -209,7 +209,8 @@
         "codex-cli-nix": "codex-cli-nix",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs_2",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "youtube-music-cli": "youtube-music-cli"
       }
     },
     "systems": {
@@ -254,6 +255,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "youtube-music-cli": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1777021682,
+        "narHash": "sha256-n+6S4/OBH5VonIBfInawAlY5WD6CFTuNvSiH2hX6rjU=",
+        "owner": "DawidKrzoska",
+        "repo": "youtube-music-cli-flake",
+        "rev": "be36ec0762f7962a6808f2aeaca6cfe7ac8552cb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DawidKrzoska",
+        "repo": "youtube-music-cli-flake",
         "type": "github"
       }
     }
