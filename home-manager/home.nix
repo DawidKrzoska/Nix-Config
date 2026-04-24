@@ -14,6 +14,7 @@
     ./shell/tmux.nix
     #    ./modules/fonts.nix
     #    ./desktop/fonts.nix
+    ./desktop/theme.nix
     ./desktop/wofi.nix
     ./desktop/hyprland/hyprland.nix
     ./nixvim/default.nix

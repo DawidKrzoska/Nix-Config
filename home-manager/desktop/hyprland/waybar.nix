@@ -1,8 +1,9 @@
-{ outputs, config, lib, pkgs, inputs, ... }:
+{ outputs, config, lib, pkgs, inputs, desktopTheme, ... }:
 let
   # Dependencies
   pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
   hyprland = config.wayland.windowManager.hyprland.package;
+  colors = desktopTheme.catppuccin;
 in {
   # Let it try to start a few more times
   systemd.user.services.waybar = { Unit.StartLimitBurst = 30; };
@@ -80,36 +81,101 @@ in {
     # w x y z -> top, right, bottom, left
     style = ''
       * {
-        font-family: FiraCode;
-        font-size: 12pt;
+        font-family: "${desktopTheme.font}";
+        font-size: 13px;
         padding: 0;
-        margin: 0 0.4em;
+        margin: 0;
+        min-height: 0;
+        border: none;
       }
 
       window#waybar {
-        padding: 0;
-        border-radius: 0.5em;
+        background: transparent;
+        color: ${colors.text};
       }
 
-      .modules-left {
-        margin-left: -0.65em;
+      tooltip {
+        background: ${colors.mantle};
+        border: 1px solid ${colors.surface1};
+        border-radius: 12px;
       }
 
+      tooltip label {
+        color: ${colors.text};
+      }
+
+      .modules-left,
+      .modules-center,
       .modules-right {
-        margin-right: -0.65em;
+        margin: 0 8px;
+      }
+
+      #workspaces,
+      #custom-spotify,
+      #cpu,
+      #memory,
+      #pulseaudio,
+      #network,
+      #clock {
+        margin: 0 6px;
+        padding: 9px 14px;
+        border: 1px solid ${colors.surface1};
+        border-radius: 14px;
+        background: alpha(${colors.base}, 0.82);
+        color: ${colors.text};
+      }
+
+      #workspaces {
+        padding: 5px;
       }
 
       #workspaces button {
-        padding-left: 0.4em;
-        padding-right: 0.4em;
-        margin-top: 0.15em;
-        margin-bottom: 0.15em;
+        margin: 0 4px;
+        padding: 5px 10px;
+        border-radius: 10px;
+        color: ${colors.subtext0};
+        background: transparent;
+      }
+
+      #workspaces button:hover {
+        background: alpha(${colors.surface0}, 0.9);
+        color: ${colors.text};
+      }
+
+      #workspaces button.active {
+        background: ${colors.accent};
+        color: ${colors.crust};
+      }
+
+      #workspaces button.urgent {
+        background: ${colors.red};
+        color: ${colors.crust};
+      }
+
+      #custom-spotify {
+        color: ${colors.green};
+      }
+
+      #cpu {
+        color: ${colors.yellow};
+      }
+
+      #memory {
+        color: ${colors.peach};
+      }
+
+      #pulseaudio {
+        color: ${colors.sky};
+      }
+
+      #network {
+        color: ${colors.sapphire};
       }
 
       #clock {
-        padding-right: 1em;
-        padding-left: 1em;
-        border-radius: 0.5em;
+        padding-left: 18px;
+        padding-right: 18px;
+        color: ${colors.lavender};
       }
     '';
   };
