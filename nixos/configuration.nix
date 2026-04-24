@@ -118,7 +118,6 @@
 
   environment.systemPackages = with pkgs; [
     firefox
-    spotify
     pavucontrol
     pulseaudio
     mpd
