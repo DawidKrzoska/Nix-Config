@@ -26,7 +26,7 @@ in {
 
         modules-center = [ "cpu" "memory" "pulseaudio" ];
 
-        modules-right = [ "network" "clock" ];
+        modules-right = [ "bluetooth" "network" "clock" ];
 
         clock = {
           interval = 1;
@@ -88,6 +88,21 @@ in {
           };
           on-click = pavucontrol;
         };
+        bluetooth = {
+          format = "";
+          format-disabled = "󰂲";
+          format-off = "󰂲";
+          format-on = "";
+          format-connected = " {device_alias}";
+          format-connected-battery =
+            " {device_alias} {device_battery_percentage}%";
+          tooltip-format = "{controller_alias}\t{controller_address}";
+          tooltip-format-connected = "{controller_alias}\n{num_connections} connected";
+          tooltip-format-enumerate-connected = "{device_alias}";
+          tooltip-format-enumerate-connected-battery =
+            "{device_alias}\t{device_battery_percentage}%";
+          on-click = "blueman-manager";
+        };
         "sway/window" = { max-length = 20; };
         network = {
           interval = 3;
@@ -144,6 +159,7 @@ in {
       #cpu,
       #memory,
       #pulseaudio,
+      #bluetooth,
       #network,
       #clock {
         margin: 0 6px;
@@ -195,6 +211,10 @@ in {
 
       #pulseaudio {
         color: ${colors.sky};
+      }
+
+      #bluetooth {
+        color: ${colors.blue};
       }
 
       #network {

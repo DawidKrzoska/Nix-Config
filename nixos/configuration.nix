@@ -64,6 +64,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
   hardware.graphics.enable = true;
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
 
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
@@ -118,6 +120,7 @@
 
   environment.systemPackages = with pkgs; [
     firefox
+    blueman
     pavucontrol
     pulseaudio
     mpd
