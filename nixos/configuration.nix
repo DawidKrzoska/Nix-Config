@@ -140,7 +140,10 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   services = { mpd.enable = true; };
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs.docker_29;
+  };
 
   system.stateVersion = "25.11";
 }
