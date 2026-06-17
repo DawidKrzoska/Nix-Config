@@ -17,6 +17,7 @@
     rustup
     nodejs
     neofetch
+    opencode
     inputs.codex-cli-nix.packages.x86_64-linux.default
     inputs.youtube-music-cli.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];

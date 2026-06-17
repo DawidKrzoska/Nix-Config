@@ -77,7 +77,7 @@
       # Be sure to change it (using passwd) after rebooting!
       ignoreShellProgramCheck = true;
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "docker" ];
+      extraGroups = [ "wheel" "networkmanager" "docker" "render" "video" ];
       shell = pkgs.zsh;
     };
   };
@@ -127,6 +127,14 @@
     mpd
     docker-compose
   ];
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-vulkan;
+    host = "127.0.0.1";
+    port = 11434;
+  };
+
   fonts.packages = [ pkgs.nerd-fonts.fira-code ];
 
   # Some programs need SUID wrappers, can be configured further or are
