@@ -25,7 +25,7 @@ in {
         layer = "top";
         modules-left = [ "hyprland/workspaces" "custom/media" ];
 
-        modules-center = [ "cpu" "memory" "pulseaudio" ];
+        modules-center = [ "cpu" "memory" "pulseaudio" "custom/gpu" ];
 
         modules-right = [ "bluetooth" "network" "clock" ];
 
@@ -41,6 +41,24 @@ in {
 
         cpu = { format = "  {usage}%"; };
         memory = { format = "  {percentage}%"; };
+        "custom/gpu" = {
+          interval = 2;
+          exec = "${pkgs.writeShellScript "waybar-gpu" ''
+            gpu_busy="$(cat /sys/class/drm/card1/device/gpu_busy_percent 2>/dev/null || echo 0)"
+            vram_total="$(cat /sys/class/drm/card1/device/mem_info_vram_total 2>/dev/null || echo 0)"
+            vram_used="$(cat /sys/class/drm/card1/device/mem_info_vram_used 2>/dev/null || echo 0)"
+
+            vram_total_gib=$(( vram_total * 10 / 1073741824 ))
+            vram_used_gib=$(( vram_used * 10 / 1073741824 ))
+
+            printf '󰾲  %s%%    %d.%d/%d.%dGiB\n' \
+              "$gpu_busy" \
+              "$(( vram_used_gib / 10 ))" "$(( vram_used_gib % 10 ))" \
+              "$(( vram_total_gib / 10 ))" "$(( vram_total_gib % 10 ))"
+          ''}";
+          format = "{}";
+          tooltip = false;
+        };
 
         "custom/media" = {
           interval = 2;
@@ -159,6 +177,7 @@ in {
       #custom-media,
       #cpu,
       #memory,
+      #custom-gpu,
       #pulseaudio,
       #bluetooth,
       #network,
@@ -208,6 +227,10 @@ in {
 
       #memory {
         color: ${colors.peach};
+      }
+
+      #custom-gpu {
+        color: ${colors.mauve};
       }
 
       #pulseaudio {

@@ -130,7 +130,7 @@
 
   services.ollama = {
     enable = true;
-    package = pkgs.ollama-vulkan;
+    package = pkgs.ollama-rocm;
     host = "127.0.0.1";
     port = 11434;
   };
