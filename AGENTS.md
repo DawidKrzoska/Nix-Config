@@ -18,6 +18,8 @@ This is a **declarative NixOS + Home Manager flake**. All system and user config
 
 7. **Validate before system apply** — run `nix build .#nixosConfigurations.nixos.config.system.build.toplevel` or a dry-run first to check for errors before asking me for system rebuild approval.
 
+8. **Commit changes after approval** — once I confirm I'm happy with the results, stage all changed files and commit them with a concise, descriptive message.
+
 ## Applying changes
 
 | Scope | Command | Ask first? |
