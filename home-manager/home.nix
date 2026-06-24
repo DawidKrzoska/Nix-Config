@@ -11,6 +11,7 @@
     ./shell/alacritty.nix
     ./shell/cli.nix
     ./shell/opencode.nix
+    ./shell/opencode-swarm.nix
     ./shell/shell.nix
     ./shell/tmux.nix
     ./desktop/theme.nix

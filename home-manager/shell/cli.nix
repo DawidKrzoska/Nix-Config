@@ -16,6 +16,7 @@
     killall
     rustup
     nodejs
+    bun
     fastfetch
     inputs.codex-cli-nix.packages.x86_64-linux.default
   ];
