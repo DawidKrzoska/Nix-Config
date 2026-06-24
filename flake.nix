@@ -11,9 +11,6 @@
     nixvim.url = "github:nix-community/nixvim/nixos-26.05";
     # nixvim.inputs.nixpkgs.follows = "nixpkgs";
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
-    youtube-music-cli.url = "github:DawidKrzoska/youtube-music-cli-flake";
-    youtube-music-cli.inputs.nixpkgs.follows = "nixpkgs";
-
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
 

@@ -1,13 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, ... }:
 let
   # Dependencies
   pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
   theme = config.wolfar.theme;
   colors = theme.palette;
   playerctl = lib.getExe pkgs.playerctl;
-  jq = lib.getExe pkgs.jq;
-  youtubeMusicCli =
-    lib.getExe inputs.youtube-music-cli.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
   # Let it try to start a few more times
   systemd.user.services.waybar = { Unit.StartLimitBurst = 30; };
@@ -63,30 +60,25 @@ in {
         "custom/media" = {
           interval = 2;
           exec = "${pkgs.writeShellScript "waybar-media" ''
-            state_file="$HOME/.youtube-music-cli/player-state.json"
-
-            if [ ! -f "$state_file" ]; then
+            status="$(${playerctl} status 2>/dev/null)"
+            if [ "$status" != "Playing" ] && [ "$status" != "Paused" ]; then
               exit 0
             fi
 
-            track="$(${jq} -r '
-              if .currentTrack == null then
-                empty
-              else
-                ((.currentTrack.artists // []) | map(.name) | join(", ")) as $artists
-                | if $artists == "" then .currentTrack.title else "\($artists) - \(.currentTrack.title)" end
-              end
-            ' "$state_file" 2>/dev/null)"
+            track="$(${playerctl} metadata --format '{{ artist }} - {{ title }}' 2>/dev/null)"
+            if [ -z "$track" ] || [ "$track" = " - " ]; then
+              track="$(${playerctl} metadata --format '{{ title }}' 2>/dev/null)"
+            fi
 
-            if [ -z "$track" ] || [ "$track" = "null" ]; then
+            if [ -z "$track" ]; then
               exit 0
             fi
 
             printf '󰎆 %s\n' "$track"
           ''}";
-          on-click = "${youtubeMusicCli} pause || ${youtubeMusicCli} resume";
-          on-click-right = "${youtubeMusicCli} skip";
-          on-click-middle = "${youtubeMusicCli} back";
+          on-click = "${playerctl} play-pause";
+          on-click-right = "${playerctl} next";
+          on-click-middle = "${playerctl} previous";
           max-length = 48;
           format = "{}";
           tooltip = false;
