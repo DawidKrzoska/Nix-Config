@@ -7,6 +7,7 @@ in {
 
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "hyprlang";
     systemd = {
       enable = true;
       # Same as default, but stop graphical-session too
@@ -37,16 +38,14 @@ in {
 
       dwindle = {
         split_width_multiplier = 1.35;
-        pseudotile = true;
         preserve_split = "yes";
       };
 
+      debug = { vfr = true; };
+
       misc = {
-        vfr = true;
         close_special_on_empty = true;
         focus_on_activate = true;
-        # Unfullscreen when opening something
-        new_window_takes_over_fullscreen = 2;
       };
 
       decoration = {
@@ -63,8 +62,6 @@ in {
         };
       };
       animations = { enabled = true; };
-
-      exec = [ "${pkgs.hyprpaper}/bin/hyprpaper" ];
     };
 
     extraConfig = ''

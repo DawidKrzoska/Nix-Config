@@ -16,19 +16,19 @@ in {
       };
       font = {
         normal = {
-          family = "DejaVu Sans Mono";
+          family = "FiraCode Nerd Font Mono";
           style = "Book";
         };
         bold = {
-          family = "DejaVu Sans Mono";
+          family = "FiraCode Nerd Font Mono";
           style = "Bold";
         };
         italic = {
-          family = "DejaVu Sans Mono";
+          family = "FiraCode Nerd Font Mono";
           style = "Book";
         };
         bold_italic = {
-          family = "DejaVu Sans Mono";
+          family = "FiraCode Nerd Font Mono";
           style = "Bold";
         };
         size = theme.font.monospace.size;

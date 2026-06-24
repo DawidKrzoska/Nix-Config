@@ -2,7 +2,7 @@
   programs.nixvim.plugins = {
     luasnip.enable = true;
     cmp-buffer = { enable = true; };
-    cmp-emoji = { enable = true; };
+    # cmp-emoji disabled: unfree license removed from nixpkgs 26.05
     cmp-nvim-lsp = { enable = true; };
     cmp-path = { enable = true; };
     cmp_luasnip = { enable = true; };

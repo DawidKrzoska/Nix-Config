@@ -1,17 +1,20 @@
 { config, pkgs, ... }:
 let
-
+  wallpaper = "${./wallpapers/Cry.jpg}";
 in {
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      preload =
-        [ "~/wolfar-nix-config/home-manager/desktop/hyprland/wallpapers/Cry.jpg" ];
+  services.hyprpaper.enable = true;
 
-      wallpaper = [
-        "DP-1, ~/wolfar-nix-config/home-manager/desktop/hyprland/wallpapers/Cry.jpg"
-        "HDMI-A-1, ~/wolfar-nix-config/home-manager/desktop/hyprland/wallpapers/Cry.jpg"
-      ];
-    };
-  };
+  xdg.configFile."hypr/hyprpaper.conf".text = ''
+    preload = ${wallpaper}
+
+    wallpaper {
+        monitor = DP-1
+        path = ${wallpaper}
+    }
+
+    wallpaper {
+        monitor = HDMI-A-1
+        path = ${wallpaper}
+    }
+  '';
 }

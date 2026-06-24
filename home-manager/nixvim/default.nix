@@ -17,6 +17,10 @@ in {
   programs.nixvim = {
     enable = true;
     plugins.web-devicons.enable = true;
+    plugins.mini = {
+      mockDevIcons = true;
+      modules.icons.enable = true;
+    };
     colorschemes.catppuccin = {
       enable = true;
       settings = {
