@@ -133,6 +133,10 @@
     package = pkgs.ollama-rocm;
     host = "127.0.0.1";
     port = 11434;
+    rocmOverrideGfx = "11.0.0";
+    environmentVariables = {
+      HIP_VISIBLE_DEVICES = "0";
+    };
   };
 
   fonts.packages = [ pkgs.nerd-fonts.fira-code ];
