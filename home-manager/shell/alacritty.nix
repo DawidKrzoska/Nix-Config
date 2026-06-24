@@ -17,7 +17,7 @@ in {
       font = {
         normal = {
           family = "FiraCode Nerd Font Mono";
-          style = "Book";
+          style = "Regular";
         };
         bold = {
           family = "FiraCode Nerd Font Mono";
@@ -25,7 +25,7 @@ in {
         };
         italic = {
           family = "FiraCode Nerd Font Mono";
-          style = "Book";
+          style = "Regular";
         };
         bold_italic = {
           family = "FiraCode Nerd Font Mono";
