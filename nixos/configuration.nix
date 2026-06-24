@@ -81,6 +81,20 @@
       shell = pkgs.zsh;
     };
   };
+
+  # Passwordless sudo for nixos-rebuild (so the AI agent can run it after approval)
+  security.sudo.extraRules = [
+    {
+      users = [ "wolfar" ];
+      commands = [
+        {
+          command = "/nix/store/*/bin/nixos-rebuild";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   # Enable networking
 
   networking.networkmanager.enable = true;

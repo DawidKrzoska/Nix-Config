@@ -8,7 +8,7 @@ This is a **declarative NixOS + Home Manager flake**. All system and user config
 
 2. **No manual `.config` edits** — Home Manager manages dotfiles declaratively. Do not edit `~/.config/`, `~/.local/`, `~/.themes/`, or any other user config directory by hand. All such configuration belongs in `home-manager/` modules.
 
-3. **System changes** → edit files under `nixos/`. **Always ask me before running `sudo nixos-rebuild switch --flake .#nixos`**.
+3. **System changes** → edit files under `nixos/`. **Always ask me before running `sudo nixos-rebuild switch --flake .#nixos`** (passwordless sudo is configured, so I can execute it directly after you approve).
 
 4. **User/home changes** → edit files under `home-manager/`. You may run `home-manager switch --flake .#wolfar@nixos` directly without asking.
 
@@ -22,5 +22,5 @@ This is a **declarative NixOS + Home Manager flake**. All system and user config
 
 | Scope | Command | Ask first? |
 |-------|---------|------------|
-| System | `sudo nixos-rebuild switch --flake .#nixos` | **Yes** — always notify me |
+| System | `sudo nixos-rebuild switch --flake .#nixos` | **Yes** — always notify me (passwordless sudo set up, so I can execute directly) |
 | User | `home-manager switch --flake .#wolfar@nixos` | No — safe to run directly |
