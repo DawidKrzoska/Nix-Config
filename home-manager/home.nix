@@ -10,6 +10,7 @@
     ./modules/theme.nix
     ./shell/alacritty.nix
     ./shell/cli.nix
+    ./shell/opencode.nix
     ./shell/shell.nix
     ./shell/tmux.nix
     ./desktop/theme.nix

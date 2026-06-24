@@ -128,18 +128,7 @@
     docker-compose
   ];
 
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-rocm;
-    host = "127.0.0.1";
-    port = 11434;
-    rocmOverrideGfx = "11.0.0";
-    environmentVariables = {
-      HIP_VISIBLE_DEVICES = "0";
-    };
-  };
-
-  fonts.packages = [ pkgs.nerd-fonts.fira-code ];
+fonts.packages = [ pkgs.nerd-fonts.fira-code ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
