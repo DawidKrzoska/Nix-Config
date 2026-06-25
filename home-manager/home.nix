@@ -15,7 +15,7 @@
     ./shell/shell.nix
     ./shell/tmux.nix
     ./desktop/theme.nix
-    ./desktop/flameshot.nix
+    ./desktop/satty.nix
     ./desktop/wofi.nix
     ./desktop/hyprland/hyprland.nix
     ./nixvim/default.nix

@@ -15,15 +15,15 @@
       };
       pactl = lib.getExe' pkgs.pulseaudio "pactl";
       playerctl = lib.getExe' config.services.playerctld.package "playerctl";
-      flameshot = lib.getExe pkgs.flameshot;
+      satty = lib.getExe pkgs.satty;
     in [
       "SUPER,q,killactive"
       "SUPER,m,exit"
       "SUPER,f,fullscreen,1"
       "SUPER,t,exec,alacritty"
       "SUPER,o,exec,wofi --show drun"
-      ",Print,exec,${flameshot} gui"
-      "SHIFT,Print,exec,${flameshot} full -p /home/wolfar/Pictures"
+      ",Print,exec,grim -g \"$(slurp)\" - | ${satty} -f -"
+      "SHIFT,Print,exec,grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
       ",XF86AudioRaiseVolume,exec,${pactl} set-sink-volume @DEFAULT_SINK@ +5%"
       ",XF86AudioLowerVolume,exec,${pactl} set-sink-volume @DEFAULT_SINK@ -5%"
       ",XF86AudioMute,exec,${pactl} set-sink-mute @DEFAULT_SINK@ toggle"
