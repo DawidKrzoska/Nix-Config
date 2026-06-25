@@ -18,6 +18,7 @@
     nodejs
     bun
     fastfetch
+    wl-clipboard
     inputs.codex-cli-nix.packages.x86_64-linux.default
   ];
 }

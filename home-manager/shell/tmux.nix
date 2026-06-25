@@ -38,6 +38,12 @@ in {
 
           set -g base-index 1
           setw -g pane-base-index 1
+          
+          # Clipboard integration
+          set -s set-clipboard on
+          setw -g mode-keys vi
+          bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
+          bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "wl-copy"
         '';
       }
     ];
