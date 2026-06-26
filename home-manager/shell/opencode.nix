@@ -1,7 +1,14 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.wolfar.opencode;
-in {
+in
+{
   options.wolfar.opencode = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -58,11 +65,30 @@ in {
 
         formatter = {
           prettier = {
-            command = [ "nix" "develop" "--command" "npx" "prettier" "--write" "$FILE" ];
-            extensions = [ ".js" ".jsx" ".ts" ".tsx" ".json" ".css" ".md" ];
+            command = [
+              "nix"
+              "develop"
+              "--command"
+              "npx"
+              "prettier"
+              "--write"
+              "$FILE"
+            ];
+            extensions = [
+              ".js"
+              ".jsx"
+              ".ts"
+              ".tsx"
+              ".json"
+              ".css"
+              ".md"
+            ];
           };
           nixfmt = {
-            command = [ "nixfmt" "$FILE" ];
+            command = [
+              "nixfmt"
+              "$FILE"
+            ];
             extensions = [ ".nix" ];
           };
         };
@@ -142,24 +168,61 @@ in {
         mcp = {
           fetch = {
             type = "local";
-            command = [ "npx" "-y" "@modelcontextprotocol/server-fetch" ];
+            command = [
+              "npx"
+              "-y"
+              "@modelcontextprotocol/server-fetch"
+            ];
             enabled = true;
           };
           git = {
             type = "local";
-            command = [ "npx" "-y" "@modelcontextprotocol/server-git" ];
+            command = [
+              "npx"
+              "-y"
+              "@modelcontextprotocol/server-git"
+            ];
             enabled = true;
           };
           docker = {
             type = "local";
-            command = [ "npx" "-y" "@modelcontextprotocol/server-docker" ];
+            command = [
+              "npx"
+              "-y"
+              "@modelcontextprotocol/server-docker"
+            ];
             enabled = true;
           };
           brave-search = {
             type = "local";
-            command = [ "npx" "-y" "@modelcontextprotocol/server-brave-search" ];
+            command = [
+              "npx"
+              "-y"
+              "@modelcontextprotocol/server-brave-search"
+            ];
             enabled = true;
-            env = { "BRAVE_API_KEY" = "{env:BRAVE_API_KEY}"; };
+            env = {
+              "BRAVE_API_KEY" = "{env:BRAVE_API_KEY}";
+            };
+          };
+          vercel = {
+            type = "remote";
+            url = "https://mcp.vercel.com";
+            enabled = true;
+          };
+          supabase = {
+            type = "remote";
+            url = "https://mcp.supabase.com/mcp";
+            enabled = true;
+          };
+          github = {
+            type = "local";
+            command = [
+              "npx"
+              "-y"
+              "@modelcontextprotocol/server-github"
+            ];
+            enabled = true;
           };
         };
 

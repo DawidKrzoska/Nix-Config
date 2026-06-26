@@ -1,14 +1,13 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{ config, ... }: {
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
 
-  in{
-	programs = {
-		zsh.enable = true;
-		starship.enable = true;
-		};
-
+  programs = {
+    zsh = {
+      enable = true;
+    };
+    starship.enable = true;
+  };
 }
-

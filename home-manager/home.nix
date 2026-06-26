@@ -1,6 +1,13 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{ inputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -16,6 +23,7 @@
     ./shell/tmux.nix
     ./desktop/theme.nix
     ./desktop/satty.nix
+    ./desktop/services.nix
     ./desktop/wofi.nix
     ./desktop/hyprland/hyprland.nix
     ./nixvim/default.nix
@@ -51,6 +59,7 @@
     username = "wolfar";
     homeDirectory = "/home/wolfar";
   };
+
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;

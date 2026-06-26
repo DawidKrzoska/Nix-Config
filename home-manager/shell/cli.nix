@@ -1,4 +1,11 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   home.packages = with pkgs; [
     gnumake
     playerctl
@@ -19,6 +26,8 @@
     bun
     fastfetch
     wl-clipboard
+    cliphist
+    polkit_gnome
     inputs.codex-cli-nix.packages.x86_64-linux.default
   ];
 }

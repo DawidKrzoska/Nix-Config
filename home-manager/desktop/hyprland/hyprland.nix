@@ -1,9 +1,19 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   theme = config.wolfar.theme;
   stripHash = color: lib.removePrefix "#" color;
-in {
-  imports = [ ./binds.nix ./waybar.nix ./hyprpaper.nix ];
+in
+{
+  imports = [
+    ./binds.nix
+    ./waybar.nix
+    ./hyprpaper.nix
+  ];
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -18,6 +28,11 @@ in {
     };
 
     settings = {
+      exec-once = [
+        "wl-paste --type text --watch cliphist store"
+        "wl-paste --type image --watch cliphist store"
+        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+      ];
       general = {
         gaps_in = 15;
         gaps_out = 20;
@@ -27,21 +42,27 @@ in {
         "col.inactive_border" = "rgb(${stripHash theme.semantic.border})";
       };
 
-      group = { groupbar.font_size = 11; };
+      group = {
+        groupbar.font_size = 11;
+      };
 
       binds = {
         movefocus_cycles_fullscreen = false;
 
       };
 
-      input = { kb_layout = "pl,us"; };
+      input = {
+        kb_layout = "pl,us";
+      };
 
       dwindle = {
         split_width_multiplier = 1.35;
         preserve_split = "yes";
       };
 
-      debug = { vfr = true; };
+      debug = {
+        vfr = true;
+      };
 
       misc = {
         close_special_on_empty = true;
@@ -61,7 +82,9 @@ in {
           ignore_opacity = true;
         };
       };
-      animations = { enabled = true; };
+      animations = {
+        enabled = true;
+      };
     };
 
     extraConfig = ''
