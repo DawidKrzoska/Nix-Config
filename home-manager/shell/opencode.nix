@@ -166,45 +166,6 @@ in
         };
 
         mcp = {
-          fetch = {
-            type = "local";
-            command = [
-              "npx"
-              "-y"
-              "@modelcontextprotocol/server-fetch"
-            ];
-            enabled = true;
-          };
-          git = {
-            type = "local";
-            command = [
-              "npx"
-              "-y"
-              "@modelcontextprotocol/server-git"
-            ];
-            enabled = true;
-          };
-          docker = {
-            type = "local";
-            command = [
-              "npx"
-              "-y"
-              "@modelcontextprotocol/server-docker"
-            ];
-            enabled = true;
-          };
-          brave-search = {
-            type = "local";
-            command = [
-              "npx"
-              "-y"
-              "@modelcontextprotocol/server-brave-search"
-            ];
-            enabled = true;
-            env = {
-              "BRAVE_API_KEY" = "{env:BRAVE_API_KEY}";
-            };
-          };
           vercel = {
             type = "remote";
             url = "https://mcp.vercel.com";
