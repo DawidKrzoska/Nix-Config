@@ -7,6 +7,20 @@
 }:
 let
   cfg = config.wolfar.opencode;
+  skillFiles = {
+    "opencode/skills/supabase-migration-review/SKILL.md".source =
+      ./opencode-skills/supabase-migration-review/SKILL.md;
+    "opencode/skills/supabase-client-patterns/SKILL.md".source =
+      ./opencode-skills/supabase-client-patterns/SKILL.md;
+    "opencode/skills/ux-feature-implementation/SKILL.md".source =
+      ./opencode-skills/ux-feature-implementation/SKILL.md;
+    "opencode/skills/form-ux-review/SKILL.md".source = ./opencode-skills/form-ux-review/SKILL.md;
+    "opencode/skills/github-pr-review/SKILL.md".source = ./opencode-skills/github-pr-review/SKILL.md;
+    "opencode/skills/frontend-qa-review/SKILL.md".source =
+      ./opencode-skills/frontend-qa-review/SKILL.md;
+    "opencode/skills/vercel-release-debugging/SKILL.md".source =
+      ./opencode-skills/vercel-release-debugging/SKILL.md;
+  };
 in
 {
   options.wolfar.opencode = {
@@ -27,8 +41,8 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [ cfg.package ];
 
-    xdg.configFile."opencode/opencode.json" = {
-      text = builtins.toJSON {
+    xdg.configFile = skillFiles // {
+      "opencode/opencode.json".text = builtins.toJSON {
         "$schema" = "https://opencode.ai/config.json";
         default_agent = "build";
         autoupdate = "notify";
@@ -46,6 +60,7 @@ in
             "git commit *" = "allow";
             "git push" = "allow";
             "git push *" = "allow";
+            "gh *" = "allow";
             "home-manager switch *" = "allow";
             "nix build *" = "allow";
             "sudo *" = "deny";
@@ -111,7 +126,12 @@ in
         };
 
         skills = {
-          paths = [ ".opencode/skills" ];
+          paths = [
+            ".opencode/skills"
+            "~/.config/opencode/skills"
+          ];
+          # Load Supabase-maintained agent skills alongside local and global skills.
+          urls = [ "https://supabase.com/.well-known/agent-skills/" ];
         };
 
         command = {
