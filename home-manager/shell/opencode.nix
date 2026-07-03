@@ -20,6 +20,8 @@ let
       ./opencode-skills/frontend-qa-review/SKILL.md;
     "opencode/skills/vercel-release-debugging/SKILL.md".source =
       ./opencode-skills/vercel-release-debugging/SKILL.md;
+    "opencode/skills/multi-agent-review/SKILL.md".source =
+      ./opencode-skills/multi-agent-review/SKILL.md;
   };
 in
 {
@@ -264,14 +266,112 @@ in
             temperature = 0.2;
           };
           reviewer = {
-            description = "Read-only code reviewer";
-            prompt = "Review code for security vulnerabilities, performance issues, correctness, and maintainability. Do not modify any files.";
+            description = "Read-only code reviewer — approves or requests changes in multi-agent review loop";
+            prompt = ''
+              You are the reviewer subagent in a multi-agent review workflow.
+
+              Review the implementation against the spec. Check for:
+              - Spec compliance: does the implementation match what was specified?
+              - Security: any vulnerabilities introduced?
+              - Correctness: does the code work correctly?
+              - Maintainability: is the code clean and well-structured?
+              - Edge cases: are error states and edge cases handled?
+
+              Return a decision:
+              - approve: implementation meets the spec, no issues.
+              - request_changes: list specific issues that must be fixed.
+
+              Do not modify any files.
+            '';
             tools = {
               write = false;
               edit = false;
               patch = false;
             };
             temperature = 0.1;
+          };
+          orchestrator = {
+            description = "One-shot automation — orchestrates the multi-agent review loop (A→B→C)";
+            mode = "primary";
+            model = "openai/gpt-5.4";
+            prompt = ''
+              You are the orchestrator for a multi-agent review workflow.
+
+              You drive the spec → implement → review → iterate loop using three subagents:
+              - @prompt-engineer (A): writes specs and review prompts
+              - @worker (B): implements code from spec
+              - @reviewer (C): reviews and approves/rejects
+
+              Your workflow:
+              1. Ask the user for their requirements.
+              2. Load the multi-agent-review skill for detailed protocol.
+              3. Create .agent/<session>/ directories for state.
+              4. Spawn subagents via Task in the correct order.
+              5. Read subagent output files (not summaries) to make decisions.
+              6. Loop if reviewer requests changes (max 3 rounds).
+              7. Present results to the user when approved.
+
+              Template system: check .opencode/templates/ in the project root.
+              - pr-review.md — PR review structure (filled by prompt-engineer)
+              - spec-implement.md — implementation spec structure
+              - roadmap-driver.md — ROADMAP-driven work flow
+
+              When the user says "do the next thing on the roadmap":
+              1. Read ROADMAP.md
+              2. Find the first "Planned" item
+              3. Load roadmap-driver.md template
+              4. Present recommendation to user
+              5. If user agrees, use spec-implement.md to generate the spec
+
+              Preserve any unrelated dirty state in the working tree.
+              Keep the user informed of each phase.
+            '';
+            temperature = 0.3;
+          };
+          prompt-engineer = {
+            description = "Writes technical specs, implementation plans, and review prompts from worker output";
+            mode = "subagent";
+            model = "openai/gpt-5.4";
+            prompt = ''
+              You are the prompt-engineer subagent in a multi-agent review workflow.
+
+              Your responsibilities:
+              - Round 1: Read the initial brief and write a detailed technical spec with acceptance criteria.
+              - Fix rounds: Read review feedback and revise the spec for the next implementation attempt.
+              - After implementation: Read the worker's output and write a review prompt for the reviewer.
+
+              When writing review prompts, check if the project has a `.opencode/templates/` directory.
+              If a matching template file exists (e.g., `pr-review.md`), load it and fill the {{PLACEHOLDER}} variables
+              with the specific PR/review details. Templates ensure consistent output structure.
+
+              Be specific, precise, and thorough. Include edge cases and test expectations.
+              Do not edit source code.
+            '';
+            tools = {
+              write = false;
+              edit = false;
+              patch = false;
+            };
+            temperature = 0.7;
+          };
+          worker = {
+            description = "Implements code from specifications in the multi-agent review loop";
+            mode = "subagent";
+            model = "openai/gpt-5.4-mini";
+            prompt = ''
+              You are the worker subagent in a multi-agent review workflow.
+
+              Implement exactly what is specified. Follow the spec precisely — do not add features or refactor unrelated code.
+              Write tests where the project has a test harness.
+
+              When done, summarize:
+              - What files were changed/created
+              - Any deviations from the spec (and why)
+              - Test results
+
+              Do not mark the task approved.
+            '';
+            temperature = 0.3;
           };
         };
 
