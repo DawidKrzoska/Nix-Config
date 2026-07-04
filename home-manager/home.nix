@@ -18,7 +18,7 @@
     ./shell/alacritty.nix
     ./shell/cli.nix
     ./shell/opencode.nix
-    ./shell/opencode-swarm.nix
+    # ./shell/opencode-swarm.nix  # removed — swarm plugin dropped in favor of native orchestrator
     ./shell/shell.nix
     ./shell/tmux.nix
     ./desktop/theme.nix
