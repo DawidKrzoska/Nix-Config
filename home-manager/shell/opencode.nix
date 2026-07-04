@@ -125,6 +125,14 @@ in
             path = "./home-manager/nixvim";
             description = "NixVim configurations for Neovim";
           };
+          desktop = {
+            path = "./home-manager/desktop";
+            description = "Desktop environment (Hyprland, Waybar, wofi, theme, services)";
+          };
+          opencode = {
+            path = "~/.config/opencode";
+            description = "OpenCode configuration directory (skills, plugins, commands)";
+          };
           tuo-studio = {
             path = "/home/wolfar/TuoStudio";
             description = "TUO Sports Club Booking Platform — React/TypeScript/Tailwind + Supabase";
