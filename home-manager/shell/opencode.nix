@@ -114,24 +114,24 @@ in
 
         references = {
           nixos = {
-            path = "./nixos";
+            path = "~/wolfar-nix-config/nixos";
             description = "NixOS system-level configuration modules";
           };
           hm = {
-            path = "./home-manager";
+            path = "~/wolfar-nix-config/home-manager";
             description = "Home Manager user-level configuration modules";
           };
           nixvim = {
-            path = "./home-manager/nixvim";
+            path = "~/wolfar-nix-config/home-manager/nixvim";
             description = "NixVim configurations for Neovim";
           };
           desktop = {
-            path = "./home-manager/desktop";
+            path = "~/wolfar-nix-config/home-manager/desktop";
             description = "Desktop environment (Hyprland, Waybar, wofi, theme, services)";
           };
           opencode = {
-            path = "~/.config/opencode";
-            description = "OpenCode configuration directory (skills, plugins, commands)";
+            path = "~/wolfar-nix-config/home-manager/shell";
+            description = "OpenCode configuration source (opencode.nix + skills, plugins, commands)";
           };
           tuo-studio = {
             path = "/home/wolfar/TuoStudio";
