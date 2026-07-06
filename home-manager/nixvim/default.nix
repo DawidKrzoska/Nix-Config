@@ -12,6 +12,8 @@ in {
     ./cmp.nix
     ./options.nix
     ./lualine.nix
+    ./gitsigns.nix
+    ./diffview.nix
   ];
 
   programs.nixvim = {

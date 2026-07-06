@@ -260,6 +260,7 @@ in
         agent = {
           nix-specialist = {
             description = "NixOS & Home Manager configuration specialist";
+            model = "opencode/deepseek-v4-flash-free";
             prompt = ''
               You are a NixOS and Home Manager configuration specialist for the wolfar-nix-config repository.
 
@@ -279,6 +280,7 @@ in
           };
           frontend = {
             description = "React/TypeScript/Tailwind/Supabase frontend specialist";
+            model = "openai/gpt-5.4";
             prompt = ''
               You are a frontend specialist for TUO Sports Club Booking Platform at ~/TuoStudio.
 
@@ -330,6 +332,7 @@ in
           };
           backend = {
             description = "Supabase/PostgreSQL backend specialist";
+            model = "openai/gpt-5.4";
             prompt = ''
               You are a backend specialist for TUO Sports Club Booking Platform at ~/TuoStudio.
 
@@ -370,6 +373,8 @@ in
           };
           reviewer = {
             description = "Read-only code reviewer — approves or requests changes in multi-agent review loop";
+            mode = "subagent";
+            model = "openai/gpt-5.4-mini";
             prompt = ''
               You are the reviewer subagent in a multi-agent review workflow.
 
@@ -452,7 +457,7 @@ in
           planner = {
             description = "Researches and writes technical specs with acceptance criteria — never codes";
             mode = "subagent";
-            model = "openai/gpt-5.4";
+            model = "openai/gpt-5.5";
             prompt = ''
               You are the planner subagent. You research, design, and write specs — you do NOT write code.
 
@@ -482,7 +487,7 @@ in
           debugger = {
             description = "Systematically diagnoses and fixes bugs from error output, logs, and crash reports";
             mode = "subagent";
-            model = "openai/gpt-5.4";
+            model = "openai/gpt-5.5";
             prompt = ''
               You are the debugger subagent. Your job is to diagnose and fix bugs.
 
