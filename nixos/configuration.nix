@@ -140,6 +140,7 @@
     pulseaudio
     mpd
     docker-compose
+    tailscale
   ];
 
 fonts.packages = [ pkgs.nerd-fonts.fira-code ];
@@ -155,6 +156,14 @@ fonts.packages = [ pkgs.nerd-fonts.fira-code ];
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   services = { mpd.enable = true; };
+
+  # Tailscale VPN — secure remote access mesh with Tailscale SSH
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    extraUpFlags = [ "--ssh" ];
+  };
+
   virtualisation.docker = {
     enable = true;
     package = pkgs.docker_29;
