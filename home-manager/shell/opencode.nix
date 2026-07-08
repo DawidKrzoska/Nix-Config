@@ -251,7 +251,7 @@ in
             command = [
               "sh"
               "-c"
-              "GITHUB_TOKEN=$(gh auth token) exec npx -y @modelcontextprotocol/server-github"
+              "GITHUB_PERSONAL_ACCESS_TOKEN=$(gh auth token) exec npx -y @modelcontextprotocol/server-github"
             ];
             enabled = true;
           };
