@@ -66,8 +66,25 @@ let
     USED_PRIMARY=$(echo "$RESP" | $JQ -r '.rate_limit.primary_window.used_percent')
     USED_SECONDARY=$(echo "$RESP" | $JQ -r '.rate_limit.secondary_window.used_percent')
     PLAN=$(echo "$RESP" | $JQ -r '.plan_type')
+    LIMIT_REACHED=$(echo "$RESP" | $JQ -r '.rate_limit.limit_reached // false')
+    RESET_SECONDS=$(echo "$RESP" | $JQ -r '.rate_limit.primary_window.reset_after_seconds // 0')
+    RESET_CREDITS=$(echo "$RESP" | $JQ -r '.rate_limit_reset_credits.available_count // 0')
 
     [ "$USED_PRIMARY" != "null" ] && [ -n "$USED_PRIMARY" ] || error_exit
+
+    # Format remaining time until 5h window resets
+    if [ "$RESET_SECONDS" -gt 0 ] 2>/dev/null; then
+      RESET_HOURS=$(( RESET_SECONDS / 3600 ))
+      RESET_MINS=$(( (RESET_SECONDS % 3600) / 60 ))
+      if [ "$RESET_HOURS" -gt 0 ]; then
+        RESET_DISPLAY="''${RESET_HOURS}h''${RESET_MINS}m"
+      else
+        RESET_SECS=$(( RESET_SECONDS % 60 ))
+        RESET_DISPLAY="''${RESET_MINS}m''${RESET_SECS}s"
+      fi
+    else
+      RESET_DISPLAY=""
+    fi
 
     # Read view state (default to 5h if file missing)
     STATE=$(cat "$STATE_FILE" 2>/dev/null || echo "5h")
@@ -76,13 +93,38 @@ let
       DISPLAY_PCT=$USED_SECONDARY
       LABEL="7d"
       ALT="weekly"
+      REMAINING=$(( 100 - DISPLAY_PCT ))
+      if [ "$REMAINING" -lt 0 ]; then REMAINING=0; fi
+      TEXT="  7d $REMAINING%"
+      TOOLTIP=$(printf 'OpenAI %s\n━━━ Windows ━━━\n7d: %s%% used (%s%% remaining)\n5h: %s%% used (resets in %s)' \
+        "$PLAN" \
+        "$USED_SECONDARY" "$REMAINING" \
+        "$USED_PRIMARY" "$RESET_DISPLAY")
     else
       DISPLAY_PCT=$USED_PRIMARY
       LABEL="5h"
       ALT="5h"
+      REMAINING=$(( 100 - DISPLAY_PCT ))
+      if [ "$REMAINING" -lt 0 ]; then REMAINING=0; fi
+      if [ "$LIMIT_REACHED" = "true" ] && [ "$REMAINING" -le 0 ] 2>/dev/null; then
+        # At the cap — show countdown prominently
+        TEXT="  5h ⏳$RESET_DISPLAY"
+      elif [ "$REMAINING" -le 10 ] 2>/dev/null; then
+        TEXT="  5h $REMAINING% ⏳$RESET_DISPLAY"
+      else
+        TEXT="  5h $REMAINING%"
+      fi
+      TOOLTIP=$(printf 'OpenAI %s\n━━━ Windows ━━━\n5h: %s%% used (%s%% remaining)\n    resets in %s\n7d: %s%% used (%s%% remaining)' \
+        "$PLAN" \
+        "$USED_PRIMARY" "$REMAINING" \
+        "$RESET_DISPLAY" \
+        "$USED_SECONDARY" "$((100 - USED_SECONDARY))")
     fi
 
-    REMAINING=$(( 100 - DISPLAY_PCT ))
+    # Add reset credits info if available
+    if [ "$RESET_CREDITS" -gt 0 ] 2>/dev/null; then
+      TOOLTIP="$TOOLTIP\n━━━ Reset ━━━\n⚡ Credits: $RESET_CREDITS available"
+    fi
 
     # Color thresholds based on used_percent
     if [ "$DISPLAY_PCT" -ge 81 ]; then
@@ -90,9 +132,6 @@ let
     elif [ "$DISPLAY_PCT" -ge 51 ]; then
       CLASS="warn"
     fi
-
-    TEXT="  $LABEL $REMAINING%"
-    TOOLTIP=$(printf 'OpenAI %s\n5h: %s%% used (%s%% remaining)\n7d: %s%% used (%s%% remaining)' "$PLAN" "$USED_PRIMARY" "$((100 - USED_PRIMARY))" "$USED_SECONDARY" "$((100 - USED_SECONDARY))")
 
     $JQ -c -n \
       --arg text "$TEXT" \
@@ -102,7 +141,7 @@ let
       '{text: $text, alt: $alt, class: $cls, tooltip: $tooltip}'
   '';
 
-  # Toggles the quota view between 5h and 7d, then refreshes Waybar
+  # Toggles the quota view between 5h and 7d, then refreshes only this module via SIGRTMIN+4
   toggleOpenaiQuotaView = pkgs.writeShellScript "toggle-openai-quota-view" ''
     STATE_FILE="/tmp/waybar-openai-quota-view"
     CURRENT=$(cat "$STATE_FILE" 2>/dev/null || echo "5h")
@@ -111,7 +150,7 @@ let
     else
       echo "5h" > "$STATE_FILE"
     fi
-    ${procps}/bin/pkill -SIGUSR2 waybar 2>/dev/null || true
+    ${procps}/bin/pkill -RTMIN+4 waybar 2>/dev/null || true
   '';
 in {
   # Let it try to start a few more times
@@ -175,6 +214,7 @@ in {
           exec = "${openaiQuotaScript}";
           return-type = "json";
           on-click = "${toggleOpenaiQuotaView}";
+          signal = 4;
           tooltip = true;
         };
 
