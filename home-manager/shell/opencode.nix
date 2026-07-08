@@ -50,6 +50,8 @@ in
         autoupdate = "notify";
         instructions = [ "AGENTS.md" ];
 
+        plugin = [ "opencode-mystatus" ];
+
         permission = {
           bash = {
             "nix develop *" = "allow";
@@ -231,6 +233,10 @@ in
           changelog = {
             template = "Analyze git diff origin/main..HEAD and generate a markdown changelog summarizing changes: git diff origin/main..HEAD";
             description = "Generate a draft changelog of local changes";
+          };
+          mystatus = {
+            description = "Query quota usage for all AI accounts";
+            template = "Use the mystatus tool to query quota usage. Return the result as-is without modification.";
           };
         };
 
