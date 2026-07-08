@@ -261,6 +261,8 @@ in
               "npx"
               "-y"
               "@playwright/mcp"
+              "--browser"
+              "firefox"
             ];
             enabled = true;
           };
@@ -335,6 +337,8 @@ in
               - For RLS-restricted data, use Supabase service layer calls — never raw SQL from the frontend.
               - When changing types, update the generated Supabase types if needed.
               - TSC build mode: use `tsc -b` (project references), not `tsc --noEmit`.
+              - You have access to a Playwright MCP browser tool — use it for interactive QA (navigate,
+                click, snapshot, type, fill forms, etc.). Run from within `nix develop --command`.
               - Before committing, verify with: nix develop --command pnpm verify
             '';
             temperature = 0.5;
