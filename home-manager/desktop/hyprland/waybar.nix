@@ -68,6 +68,7 @@ let
     PLAN=$(echo "$RESP" | $JQ -r '.plan_type')
     LIMIT_REACHED=$(echo "$RESP" | $JQ -r '.rate_limit.limit_reached // false')
     RESET_SECONDS=$(echo "$RESP" | $JQ -r '.rate_limit.primary_window.reset_after_seconds // 0')
+    RESET_SECONDS_7D=$(echo "$RESP" | $JQ -r '.rate_limit.secondary_window.reset_after_seconds // 0')
     RESET_CREDITS=$(echo "$RESP" | $JQ -r '.rate_limit_reset_credits.available_count // 0')
 
     [ "$USED_PRIMARY" != "null" ] && [ -n "$USED_PRIMARY" ] || error_exit
@@ -86,6 +87,15 @@ let
       RESET_DISPLAY=""
     fi
 
+    # Format remaining time until 7d window resets
+    if [ "$RESET_SECONDS_7D" -gt 0 ] 2>/dev/null; then
+      RESET_DAYS_7D=$(( RESET_SECONDS_7D / 86400 ))
+      RESET_HOURS_7D=$(( (RESET_SECONDS_7D % 86400) / 3600 ))
+      RESET_DISPLAY_7D="''${RESET_DAYS_7D}d''${RESET_HOURS_7D}h"
+    else
+      RESET_DISPLAY_7D=""
+    fi
+
     # Read view state (default to 5h if file missing)
     STATE=$(cat "$STATE_FILE" 2>/dev/null || echo "5h")
 
@@ -96,9 +106,9 @@ let
       REMAINING=$(( 100 - DISPLAY_PCT ))
       if [ "$REMAINING" -lt 0 ]; then REMAINING=0; fi
       TEXT="  7d $REMAINING%"
-      TOOLTIP=$(printf 'OpenAI %s\n━━━ Windows ━━━\n7d: %s%% used (%s%% remaining)\n5h: %s%% used (resets in %s)' \
+      TOOLTIP=$(printf 'OpenAI %s\n━━━ Windows ━━━\n7d: %s%% used (%s%% remaining, resets in %s)\n5h: %s%% used (resets in %s)' \
         "$PLAN" \
-        "$USED_SECONDARY" "$REMAINING" \
+        "$USED_SECONDARY" "$REMAINING" "$RESET_DISPLAY_7D" \
         "$USED_PRIMARY" "$RESET_DISPLAY")
     else
       DISPLAY_PCT=$USED_PRIMARY
@@ -114,16 +124,16 @@ let
       else
         TEXT="  5h $REMAINING%"
       fi
-      TOOLTIP=$(printf 'OpenAI %s\n━━━ Windows ━━━\n5h: %s%% used (%s%% remaining)\n    resets in %s\n7d: %s%% used (%s%% remaining)' \
+      TOOLTIP=$(printf 'OpenAI %s\n━━━ Windows ━━━\n5h: %s%% used (%s%% remaining)\n    resets in %s\n7d: %s%% used (%s%% remaining, resets in %s)' \
         "$PLAN" \
         "$USED_PRIMARY" "$REMAINING" \
         "$RESET_DISPLAY" \
-        "$USED_SECONDARY" "$((100 - USED_SECONDARY))")
+        "$USED_SECONDARY" "$((100 - USED_SECONDARY))" "$RESET_DISPLAY_7D")
     fi
 
     # Add reset credits info if available
     if [ "$RESET_CREDITS" -gt 0 ] 2>/dev/null; then
-      TOOLTIP="$TOOLTIP\n━━━ Reset ━━━\n⚡ Credits: $RESET_CREDITS available"
+      TOOLTIP="$TOOLTIP"$'\n'"━━━ Reset ━━━"$'\n'"⚡ Credits: $RESET_CREDITS available"
     fi
 
     # Color thresholds based on used_percent
