@@ -7,7 +7,7 @@ description: Use when writing frontend or server code with Supabase client libra
 
 Favor consistent, typed, auth-aware data access.
 
-## Guidelines
+## General guidelines
 
 - Keep Supabase access behind reusable functions, hooks, or query modules.
 - Select only required columns and name joins clearly.
@@ -22,3 +22,14 @@ Favor consistent, typed, auth-aware data access.
 - broad `select("*")` usage
 - auth assumptions hidden in UI code
 - missing empty, loading, or permission-denied states
+
+## TuoStudio-specific conventions
+
+When working in TuoStudio, follow existing patterns in `src/services/` and `src/hooks/`.
+
+- RPC results use typed wrappers (see existing service files for the convention).
+- Service functions throw on error; callers handle via TanStack Query.
+- Query keys are arrays. Follow the key format used by existing hooks.
+- Coordinate cache invalidation after mutations. Check existing hooks to identify which queries to invalidate.
+- Do not duplicate authoritative business rules (booking, capacity, eligibility) in frontend services.
+- Read `@tuo-docs` canonical docs before changing data access patterns.

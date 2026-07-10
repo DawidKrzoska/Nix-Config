@@ -7,7 +7,7 @@ description: Use when changing Supabase schema, SQL migrations, RLS policies, RP
 
 Review changes with database safety first.
 
-## Checkpoints
+## General checkpoints
 
 - Prefer additive migrations before destructive ones.
 - Verify `NOT NULL`, default, enum, and foreign-key changes against existing data.
@@ -25,3 +25,8 @@ Structure feedback as:
 3. rollout and rollback risk
 4. performance implications
 5. follow-up migration or test gaps
+
+## TuoStudio-specific prompts
+
+When reviewing TuoStudio migrations, read `@tuo-docs` canonical docs first.
+Key concerns: RLS role coverage (all user states + admin), RPC auth guards, grant consistency, and human-approval requirements for any booking/waitlist/admim logic changes.

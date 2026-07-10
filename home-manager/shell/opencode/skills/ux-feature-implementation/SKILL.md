@@ -7,7 +7,7 @@ description: Use when building or refining user-facing UI in web apps. Focus on 
 
 Build the full interaction, not just the happy path.
 
-## UX checklist
+## General UX checklist
 
 - Make the primary action obvious within the first screenful.
 - Use clear hierarchy with restrained visual emphasis.
@@ -25,3 +25,12 @@ When proposing UI work, mention:
 3. accessibility considerations
 4. responsive behavior
 5. any unresolved UX tradeoffs
+
+## TuoStudio-specific UX guidance
+
+When building UI for TuoStudio (boutique fitness booking platform):
+
+- **Mobile-first**: All primary flows must work on mobile viewport first.
+- **Premium restrained direction**: clean spacing, restrained color palette, clear typography. Avoid dashboard clutter.
+- **Backend-sourced data**: phone, names, types, config values must come from read models — never hardcoded. See `@tuo-docs`.
+- **Public vs admin separation**: public and admin surfaces should not feel like the same product area.

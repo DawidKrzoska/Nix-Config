@@ -22,3 +22,7 @@ Forms should reduce hesitation and recovery cost.
 - disabled submit with no explanation
 - errors shown far from the field
 - no support for keyboard or autofill flows
+
+## Admin / settings form patterns
+
+When building admin forms, keep defaults, dynamic data, and backend-read values sourced from read models and RPCs — never hardcoded. Read `@tuo-docs` and existing patterns before choosing data sources.
