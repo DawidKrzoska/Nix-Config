@@ -29,5 +29,6 @@
     cliphist
     polkit_gnome
     python3
+    inputs.codex-cli-nix.packages.x86_64-linux.default
   ];
 }

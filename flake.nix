@@ -10,6 +10,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.url = "github:nix-community/nixvim/nixos-26.05";
     # nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     opencode.url = "github:anomalyco/opencode";
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
