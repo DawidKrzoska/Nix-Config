@@ -4,7 +4,7 @@ Flake-based NixOS + Home Manager configuration for the `wolfar@nixos` workstatio
 The system boots straight into Hyprland via `greetd`, ships with a curated CLI toolset, and provides a fully managed Neovim (via `nixvim`) for day-to-day development.
 
 ## Highlights
-- **Single flake entrypoint** – `flake.nix` pins `nixpkgs`, `home-manager`, `nixvim`, and `codex-cli-nix` for reproducible builds.
+- **Single flake entrypoint** – `flake.nix` pins `nixpkgs`, `home-manager`, and `nixvim` for reproducible builds.
 - **NixOS host `nixos`** – declarative networking, PipeWire audio, AMD GPU, Tuigreet login manager, and essential desktop packages/fonts.
 - **Home Manager profile** – zsh + starship shell, Alacritty terminal, Wofi launcher, tmux, GTK/Qt defaults, Hyprland with Waybar/Hyprpaper, and a curated set of CLI utilities all driven from one shared Catppuccin theme module.
 - **Neovim powered by nixvim** – Catppuccin theme, Telescope, Neo-tree, LSP servers (nixd, rust-analyzer, clangd, bashls), Tree-sitter, LuaSnip + nvim-cmp, null-ls tooling (nixfmt, markdownlint, ltrs).
@@ -50,7 +50,7 @@ After updating the lock file, rebuild the system and/or home profile to apply th
 ## Customization tips
 - **Host/user names** – Adjust `networking.hostName` in `nixos/configuration.nix` and the keys inside `nixosConfigurations` / `homeConfigurations` in `flake.nix` if you deploy to a differently named machine.
 - **System packages/services** – Extend `environment.systemPackages` or add more modules under `nixos/` for hardware-specific tweaks.
-- **CLI toolset** – Append packages to `home-manager/shell/cli.nix`; this module already includes ripgrep, fd, gcc, tmux, gh, rustup, and the Codex CLI package.
+- **CLI toolset** – Append packages to `home-manager/shell/cli.nix`; this module already includes ripgrep, fd, gcc, tmux, gh, rustup, and more.
 - **Theming** – Adjust `home-manager/desktop/theme.nix` for the chosen flavor/accent/font defaults, and `home-manager/modules/theme.nix` if you want to expand the shared design tokens or GTK/Qt integration.
 - **Hyprland session** – Edit `home-manager/desktop/hyprland/*` to change keybinds, monitor layout, wallpaper paths, or Waybar widgets without duplicating theme values.
 - **Neovim** – Each plugin/topic lives in its own file under `home-manager/nixvim/`; add/remove imports in `default.nix` to control your setup.
