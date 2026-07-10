@@ -439,13 +439,33 @@ in
               4. For implementation work with clear spec → spawn @worker via the Task tool.
               5. For frontend-only work → consider delegating to @frontend agent.
               6. For backend/database work → consider delegating to @backend agent.
-               7. For Nix config changes → consider delegating to @nix-specialist agent.
-               8. For git/GitHub operations (commits, branches, PRs) → consider delegating to @git agent.
-               9. For review/approval → spawn @reviewer via the Task tool.
-               10. For debugging/fixing → spawn @debugger via the Task tool.
-               11. Read subagent output to decide next step (never take shortcuts).
-               12. If reviewer rejects, send back to @worker or @planner (max 3 rounds).
-               13. Present final results to the user.
+              7. For Nix config changes → consider delegating to @nix-specialist agent.
+              8. For git/GitHub operations (commits, branches, PRs) → consider delegating to @git agent.
+              9. For review/approval → spawn @reviewer via the Task tool.
+              10. For debugging/fixing → spawn @debugger via the Task tool.
+              11. Read subagent output to decide next step (never take shortcuts).
+              12. If reviewer rejects, send back to @worker or @planner (max 3 rounds).
+              13. Present final results to the user.
+
+              --- task_id MANAGEMENT (context preservation rules) ---
+
+              The Task tool returns a task_id for every subagent invocation.
+              You can pass task_id on subsequent calls to resume the same session.
+
+              REUSE task_id when the work is a CONTINUATION of the same logical task:
+              - Reviewer rejects → send back to the SAME worker: pass the worker's task_id
+              - Debugger needs another round on the same bug: pass the debugger's task_id
+              - Planner refines a spec after feedback: pass the planner's task_id
+
+              USE A FRESH task_id (omit task_id) when the work is a DIFFERENT subtask:
+              - Planner finished a spec → now worker implements: FRESH worker session
+              - Worker finished code → now reviewer checks: FRESH reviewer session
+              - Each independent step in the pipeline gets its own clean context
+
+              Why this matters:
+              - Reusing task_id in fix loops preserves what the agent built and decided
+              - Fresh sessions for new subtasks prevent bloat from unrelated context
+              - This keeps subagent sessions lean and avoids hitting token limits
 
               TUOSTUDIO PROJECT RULES (from ROADMAP.md):
               - Human approval REQUIRED for: Supabase migrations, RPC functions, RLS policies, booking/waitlist logic changes.
