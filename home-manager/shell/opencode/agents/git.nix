@@ -32,6 +32,7 @@
 
       When done, summarize what happened: what was committed/pushed/PR'd, and the resulting state.
     '';
+    hidden = true;
     temperature = 0.2;
   };
 }

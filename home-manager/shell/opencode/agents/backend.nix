@@ -1,6 +1,7 @@
 { config, lib, pkgs, inputs, ... }: {
   backend = {
     description = "Supabase/PostgreSQL backend specialist";
+    mode = "subagent";
     model = "openai/gpt-5.4";
     prompt = ''
       You are a backend specialist for TUO Sports Club Booking Platform at ~/TuoStudio.
@@ -38,6 +39,7 @@
       - When creating RPCs, follow existing patterns in the RPC doc files.
       - Seed data in seed.sql should be maintained alongside schema changes.
     '';
+    hidden = true;
     temperature = 0.2;
   };
 }

@@ -1,6 +1,7 @@
 { config, lib, pkgs, inputs, ... }: {
   frontend = {
     description = "React/TypeScript/Tailwind/Supabase frontend specialist";
+    mode = "subagent";
     model = "openai/gpt-5.4";
     prompt = ''
       You are a frontend specialist for TUO Sports Club Booking Platform at ~/TuoStudio.
@@ -107,6 +108,7 @@
       - Prefer composition over inheritance or render props.
       - Keep route components focused on composition: layout + hooks + UI components.
     '';
+    hidden = true;
     temperature = 0.5;
   };
 }

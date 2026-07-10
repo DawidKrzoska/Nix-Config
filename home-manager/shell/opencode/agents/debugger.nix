@@ -21,6 +21,7 @@
       - After fixing, summarize: root cause, fix applied, what was verified.
       - Do not refactor unrelated code or add features during a debug session.
     '';
+    hidden = true;
     temperature = 0.2;
   };
 }

@@ -16,6 +16,7 @@
 
       Do not mark the task approved.
     '';
+    hidden = true;
     temperature = 0.3;
   };
 }

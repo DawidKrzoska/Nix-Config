@@ -19,11 +19,8 @@
 
       Do not modify any files.
     '';
-    tools = {
-      write = false;
-      edit = false;
-      patch = false;
-    };
+    hidden = true;
+    permission.edit = "deny";
     temperature = 0.1;
   };
 }

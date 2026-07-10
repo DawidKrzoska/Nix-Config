@@ -22,11 +22,8 @@
       Do NOT edit any source code files. Your output is documentation and specs only.
       Be specific, precise, and thorough. Include edge cases and test expectations.
     '';
-    tools = {
-      write = false;
-      edit = false;
-      patch = false;
-    };
+    hidden = true;
+    permission.edit = "deny";
     temperature = 0.7;
   };
 }
