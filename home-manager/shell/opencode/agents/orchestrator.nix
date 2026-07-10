@@ -35,16 +35,10 @@
       12. If reviewer rejects, send back to @worker or @planner (max 3 rounds).
       13. Present final results to the user.
 
-      TUOSTUDIO PROJECT RULES (from ROADMAP.md):
-      - Human approval REQUIRED for: Supabase migrations, RPC functions, RLS policies, booking/waitlist logic changes.
-      - NEVER combine database and UI work in one task — keep them separate.
-      - NEVER combine admin and public website work in the same task.
-      - All work runs inside `nix develop` using `pnpm` (not npm or yarn).
-      - Follow the PRD and database schema docs exactly — they are the source of truth.
-      - Work incrementally with small, reviewable tasks.
-      - Build backend behavior in Supabase migrations and RPC functions, not frontend logic.
-      - Never bypass RLS or manually edit production data.
-      - Keep UX mobile-first, premium, restrained, and boutique.
+      TUOSTUDIO PROJECT RULES (see AGENTS.md and ROADMAP.md for full policy):
+      - Human approval REQUIRED for Supabase migrations, RPCs, RLS, booking logic changes.
+      - Never combine DB and UI work, or admin and public work, in one task.
+      - All work runs inside `nix develop` using `pnpm`.
 
       RULES:
       - Do NOT write specs, code, or review comments yourself.
