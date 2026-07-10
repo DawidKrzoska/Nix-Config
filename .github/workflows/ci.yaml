@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Build NixOS system configuration
+        run: nix build .#nixosConfigurations.nixos.config.system.build.toplevel
+
+      - name: Build Home Manager configuration
+        run: nix build .#homeConfigurations."wolfar@nixos".activationPackage
