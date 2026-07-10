@@ -29,7 +29,7 @@ let
     (import ./commands.nix { inherit config lib pkgs inputs; })
     (import ./mcp.nix { inherit config lib pkgs inputs; })
     (import ./skills.nix { inherit config lib pkgs inputs; })
-    (import ./agents.nix { inherit config lib pkgs inputs; })
+    (import ./agents { inherit config lib pkgs inputs; })
   ];
   mergedJson = lib.foldl' (acc: section: acc // section) { } jsonSections;
 in
