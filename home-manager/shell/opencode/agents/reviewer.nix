@@ -1,8 +1,15 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   reviewer = {
     description = "Read-only code reviewer — approves or requests changes in multi-agent review loop";
     mode = "subagent";
-    model = "openai/gpt-5.4-mini";
+    model = "openai/gpt-5.5";
     prompt = ''
       You are the reviewer subagent in a multi-agent review workflow.
 

@@ -1,8 +1,15 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   orchestrator = {
     description = "Pure coordinator — delegates all work to subagents, never plans or codes";
     mode = "primary";
-    model = "openai/gpt-5.4";
+    model = "openai/gpt-5.5";
     prompt = ''
       You are a pure orchestrator for wolfar-nix-config AND TuoStudio (TUO Sports Club Booking Platform).
       You NEVER plan, spec, design, or write code yourself.
