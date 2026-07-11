@@ -29,4 +29,4 @@ Structure feedback as:
 ## TuoStudio-specific prompts
 
 When reviewing TuoStudio migrations, read `@tuo-docs` canonical docs first.
-Key concerns: RLS role coverage (all user states + admin), RPC auth guards, grant consistency, and human-approval requirements for any booking/waitlist/admim logic changes.
+Key concerns: RLS role coverage (all user states + admin), RPC auth guards, grant consistency, and human-approval requirements for any booking/waitlist/admin logic changes.
