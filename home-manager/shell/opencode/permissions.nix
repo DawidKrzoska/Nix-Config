@@ -1,4 +1,11 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   permission = {
     bash = {
       "nix develop *" = "allow";
@@ -23,8 +30,8 @@
     };
     edit = "ask";
     read = {
-      ".env" = "allow";
-      ".env.*" = "allow";
+      ".env" = "ask";
+      ".env.*" = "ask";
       "*" = "allow";
     };
   };

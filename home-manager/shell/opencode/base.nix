@@ -1,6 +1,13 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   "$schema" = "https://opencode.ai/config.json";
-  default_agent = "build";
+  default_agent = "orchestrator";
   autoupdate = "notify";
   instructions = [ "AGENTS.md" ];
   lsp = true;

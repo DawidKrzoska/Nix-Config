@@ -1,4 +1,11 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   command = {
     test = {
       template = "Run tests: nix develop --command pnpm test $ARGUMENTS";
@@ -61,7 +68,7 @@
       description = "List all Docker containers and statuses";
     };
     "migration:new" = {
-      template = "Create a new Supabase migration: touch supabase/migrations/$(date -u +%%Y%%m%%d%%H%%M%%S)_$ARGUMENTS.sql";
+      template = "Create a new Supabase migration: touch supabase/migrations/$(date -u +%Y%m%d%H%M%S)_$ARGUMENTS.sql";
       description = "Create a new timestamped Supabase SQL migration file";
     };
     "supabase:start" = {

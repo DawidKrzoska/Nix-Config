@@ -1,6 +1,14 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   nix-specialist = {
     description = "NixOS & Home Manager configuration specialist";
+    mode = "primary";
     model = "opencode/deepseek-v4-flash-free";
     prompt = ''
       You are a NixOS and Home Manager configuration specialist for the wolfar-nix-config repository.

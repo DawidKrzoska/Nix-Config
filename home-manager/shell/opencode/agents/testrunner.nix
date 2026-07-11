@@ -1,4 +1,11 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   testrunner = {
     description = "Runs pnpm verify on TuoStudio and reports full error output — never edits files";
     mode = "subagent";
@@ -8,7 +15,7 @@
 
       WORKFLOW:
       1. Navigate to the TuoStudio project at /home/wolfar/TuoStudio.
-      2. Run `pnpm verify` (which runs typecheck + lint + all tests + build).
+      2. Run `nix develop --command pnpm verify` (which runs typecheck + lint + all tests + build).
       3. Capture the full stdout and stderr output.
 
       REPORTING:
