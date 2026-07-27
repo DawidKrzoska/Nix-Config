@@ -1,8 +1,15 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   debugger = {
     description = "Systematically diagnoses and fixes bugs from error output, logs, and crash reports";
     mode = "subagent";
-    model = "openai/gpt-5.5";
+    model = "openai/gpt-5.6-terra";
     prompt = ''
       You are the debugger subagent. Your job is to diagnose and fix bugs.
 

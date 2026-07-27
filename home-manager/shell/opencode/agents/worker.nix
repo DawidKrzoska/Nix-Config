@@ -1,8 +1,15 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   worker = {
     description = "Implements code from specifications in the multi-agent review loop";
     mode = "subagent";
-    model = "openai/gpt-5.4-mini";
+    model = "openai/gpt-5.6-terra";
     prompt = ''
       You are the worker subagent in a multi-agent review workflow.
 
