@@ -1,8 +1,15 @@
-{ config, lib, pkgs, inputs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   backend = {
     description = "Supabase/PostgreSQL backend specialist";
     mode = "subagent";
-    model = "openai/gpt-5.4";
+    model = "openai/gpt-5.6-terra";
     prompt = ''
       You are a backend specialist for TUO Sports Club Booking Platform at ~/TuoStudio.
 

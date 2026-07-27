@@ -1,6 +1,13 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
-{ inputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
@@ -36,8 +43,9 @@
 
   # This will add each flake input as a registry
   # To make nix3 commands consistent with your flake
-  nix.registry = (lib.mapAttrs (_: flake: { inherit flake; }))
-    ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+  nix.registry = (lib.mapAttrs (_: flake: { inherit flake; })) (
+    (lib.filterAttrs (_: lib.isType "flake")) inputs
+  );
 
   # This will additionally add your inputs to the system's legacy channels
   # Making legacy nix commands consistent as well, awesome!
@@ -58,7 +66,10 @@
 
   # TODO: Set your hostname
   networking.hostName = "nixos";
-  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+  networking.nameservers = [
+    "1.1.1.1"
+    "8.8.8.8"
+  ];
 
   # TODO: This is just an example, be sure to use whatever bootloader you prefer
   boot.loader.systemd-boot.enable = true;
@@ -77,7 +88,13 @@
       # Be sure to change it (using passwd) after rebooting!
       ignoreShellProgramCheck = true;
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "docker" "render" "video" ];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "docker"
+        "render"
+        "video"
+      ];
       shell = pkgs.zsh;
     };
   };
@@ -140,10 +157,9 @@
     pulseaudio
     mpd
     docker-compose
-    tailscale
   ];
 
-fonts.packages = [ pkgs.nerd-fonts.fira-code ];
+  fonts.packages = [ pkgs.nerd-fonts.fira-code ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -155,13 +171,8 @@ fonts.packages = [ pkgs.nerd-fonts.fira-code ];
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  services = { mpd.enable = true; };
-
-  # Tailscale VPN — secure remote access mesh with Tailscale SSH
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
-    extraUpFlags = [ "--ssh" ];
+  services = {
+    mpd.enable = true;
   };
 
   virtualisation.docker = {
