@@ -186,7 +186,7 @@ in {
 
         modules-center = [ "cpu" "memory" "pulseaudio" "custom/gpu" ];
 
-        modules-right = [ "bluetooth" "custom/openai-quota" "network" "clock" ];
+        modules-right = [ "bluetooth" "custom/openai-quota" "custom/weather" "network" "clock" ];
 
         clock = {
           interval = 1;
@@ -226,6 +226,16 @@ in {
           on-click = "${toggleOpenaiQuotaView}";
           signal = 4;
           tooltip = true;
+        };
+
+        "custom/weather" = {
+          interval = 900;
+          exec = "${pkgs.writeShellScript "waybar-weather" ''
+            weather="$(${curl}/bin/curl -fsSL --max-time 10 'https://wttr.in/Bielsko-Biala?format=%c+%t' 2>/dev/null || true)"
+            printf '%s\n' "''${weather:-󰖐  --°C}"
+          ''}";
+          format = "{}";
+          tooltip = false;
         };
 
         "custom/media" = {
@@ -339,10 +349,11 @@ in {
       #workspaces,
       #custom-media,
       #cpu,
-      #memory,
-      #custom-gpu,
-      #custom-openai-quota,
-      #pulseaudio,
+       #memory,
+       #custom-gpu,
+       #custom-openai-quota,
+       #custom-weather,
+       #pulseaudio,
       #bluetooth,
       #network,
       #clock {
@@ -405,11 +416,15 @@ in {
         color: ${theme.semantic.warning};
       }
 
-      #custom-openai-quota.crit {
-        color: ${theme.semantic.danger};
-      }
+       #custom-openai-quota.crit {
+         color: ${theme.semantic.danger};
+       }
 
-      #pulseaudio {
+       #custom-weather {
+         color: ${colors.sky};
+       }
+
+       #pulseaudio {
         color: ${theme.semantic.info};
       }
 
