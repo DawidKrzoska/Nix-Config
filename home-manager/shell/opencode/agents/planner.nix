@@ -9,7 +9,7 @@
   planner = {
     description = "Researches and writes technical specs with acceptance criteria — never codes";
     mode = "subagent";
-    model = "openai/gpt-5.6-sol";
+    model = "openai/gpt-5.6-terra";
     prompt = ''
       You are the planner subagent. You research, design, and write specs — you do NOT write code.
 

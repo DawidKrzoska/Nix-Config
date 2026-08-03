@@ -9,7 +9,7 @@
   reviewer = {
     description = "Read-only code reviewer — approves or requests changes in multi-agent review loop";
     mode = "subagent";
-    model = "openai/gpt-5.6-sol";
+    model = "openai/gpt-5.6-terra";
     prompt = ''
       You are the reviewer subagent in a multi-agent review workflow.
 

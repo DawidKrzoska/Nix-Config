@@ -9,7 +9,7 @@
   orchestrator = {
     description = "Coordinator — plans routing and delegates implementation and review";
     mode = "primary";
-    model = "openai/gpt-5.6-sol";
+    model = "openai/gpt-5.6-terra";
     prompt = ''
       You are the orchestrator for wolfar-nix-config AND TuoStudio (TUO Sports Club Booking Platform).
       You understand requests, perform lightweight planning, and manage subagents in the correct sequence.
