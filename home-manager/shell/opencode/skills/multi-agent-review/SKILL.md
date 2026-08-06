@@ -1,61 +1,39 @@
 ---
 name: multi-agent-review
-description: Orchestrate a spec-first, review-driven code generation loop using planner, one implementation owner (worker or specialist), reviewer, testrunner, and debugger subagents. Direct handoff — the canonical handoff packet is passed verbatim to the executor and reviewer.
+description: Orchestrate a direct-handoff, review-driven delivery loop with one implementation owner, risk-based validation, and conditional Supabase security review.
 ---
 
 # Multi-agent review workflow
 
-This skill automates the **plan → implement → review → verify → iterate** loop using the configured opencode subagents. The canonical handoff packet is passed directly in Task prompts — no manual copy-paste or filesystem session state is required.
+This skill automates the **plan → implement → targeted validate → review → final verify → iterate** loop. The canonical handoff packet is passed directly in Task prompts; no session files or source artifacts are required.
 
 ## When to use
 
 - You have a feature, bugfix, or refactor that benefits from spec-first planning and review-driven iteration.
-- You want the planner's findings delivered directly to the implementation owner and reviewer.
+- You want the planner's findings delivered verbatim to the implementation owner, reviewer, and testrunner.
 
 ## Agent roles
 
 | Agent | Role |
-|-------|------|
-| **orchestrator** | Triages, classifies scope, selects exactly one implementation owner, forwards the packet, routes feedback |
-| **planner** | Produces a compact implementation handoff packet (10 sections) — never codes |
+|---|---|
+| **orchestrator** | Triages, selects exactly one implementation owner, forwards the packet, and routes feedback |
+| **planner** | Produces the mandatory 10-section implementation handoff packet — never codes |
 | **worker** | Fallback implementation owner for non-specialist tasks |
 | **frontend** | Implementation owner for TuoStudio client/UI work |
 | **backend** | Implementation owner for Supabase/schema/RPC/RLS/Edge Function work |
 | **nix-specialist** | Implementation owner for NixOS/Home Manager/OpenCode work |
-| **reviewer** | Independent, read-only review of the diff against the packet |
-| **testrunner** | Executes the packet's **section 8** validation matrix and reports full output |
-| **debugger** | Read-only; diagnoses reproducible failures and returns root-cause findings to the implementation owner — never edits |
+| **reviewer** | Independent, read-only review of the actual diff against the packet |
+| **testrunner** | Runs targeted Nix/OpenCode or TuoStudio validation and final exact-HEAD verification |
+| **debugger** | Read-only diagnosis; returns root-cause findings to the implementation owner — never edits |
+| **database-security-reviewer** | Independent read-only review of sensitive Supabase/RLS changes |
+| **roadmap-driver** | Read-only TUO roadmap briefs, readiness, and blockers |
+| **manual-qa** | Read-only human-QA handoff packet producer |
 
-## Ownership
+## Ownership and packet
 
-Exactly one agent owns source edits per task/round. The orchestrator selects the owner deterministically by scope:
+Exactly one agent owns source edits per task and every fix round: `@frontend` for TuoStudio client/UI, `@backend` for Supabase/schema/RPC/RLS/Edge Function, `@nix-specialist` for NixOS/Home Manager/OpenCode, and `@worker` only for non-specialist mixed-but-safe work. Never dispatch `@worker` and a specialist for the same scope. Reviewer and debugger are read-only. Route every fix to the original implementation owner.
 
-- `@frontend` for TuoStudio client/UI work.
-- `@backend` for Supabase/schema/RPC/RLS/Edge Function work.
-- `@nix-specialist` for NixOS/Home Manager/OpenCode work.
-- `@worker` only for non-specialist, mixed-but-safe repository tasks.
-
-Never dispatch both `@worker` and a specialist for the same scope.
-
-## Session state
-
-Session files under `.agent/` are OPTIONAL audit copies created by the orchestrator only when needed. They are never required for execution or direct handoff. The canonical handoff packet is the planner's final Task response — or, when planning is skipped, the same compact 10-section packet the orchestrator constructs directly before delegation.
-
-## Protocol
-
-### 1. Triage
-
-Ask the user for the task requirements. Classify the scope and select exactly one implementation owner.
-
-### 2. Planning (only when needed)
-
-Spawn the **planner** subagent via Task ONLY for ambiguous, cross-cutting, high-risk, contract-sensitive, or explicitly requested planning. Prompt with the brief. The planner returns the 10-section handoff packet as its final response.
-
-For small, well-scoped tasks, skip planning. The orchestrator constructs the mandatory numbered 10-section handoff packet itself (exact template in step 3 below) before delegating. Planning is optional; the packet is not.
-
-### 3. Implementation
-
-Every implementation task receives a self-contained canonical handoff packet. If @planner ran, copy its complete packet VERBATIM. If planning was skipped, the orchestrator MUST construct the exact numbered 10-section packet below — every section required, aligned with the planner's template:
+Planning is optional for small, well-scoped work; the packet is not. For ambiguous, cross-cutting, high-risk, contract-sensitive, or explicitly requested planning, `@planner` returns the canonical packet. Otherwise, the orchestrator creates it. It must always contain these numbered sections:
 
 1. Task classification and owner — repository, scope type, and exactly one implementation agent.
 2. Goal and non-goals — explicit exclusions preventing scope expansion.
@@ -68,48 +46,30 @@ Every implementation task receives a self-contained canonical handoff packet. If
 9. Escalation triggers — contract gaps, behavior conflicts, cross-scope needs, migration/deployment boundaries, or dirty-tree conflicts.
 10. Review focus — the highest-risk conditions the independent reviewer must verify.
 
-Copy the completed packet VERBATIM into the implementation owner's Task prompt AND into every testrunner Task prompt (the testrunner executes its section 8 validation matrix). Do not paraphrase or re-explore.
+Copy the completed packet **verbatim** into each implementation-owner and testrunner Task prompt. Do not paraphrase, re-explore, or require `.agent/` session artifacts.
 
-```
-You are the implementation owner. Implement exactly the handoff packet below.
-<full packet>
-Record deviations, contract conflicts, changed files, and executed validation in your final response.
-```
+## Execution ordering
 
-### 4. Review
+1. Triage and select the single owner. Optionally obtain the packet from the planner; otherwise construct the full packet.
+2. The selected owner implements exactly the packet.
+3. After implementation or a fix, `@git` creates and records a clean candidate commit SHA before targeted validation, review, security review, or full verification. It reports repository/path, branch, SHA, and clean `git status --porcelain`. Uncommitted work never satisfies readiness.
+4. Send the original packet verbatim, candidate repository/path, branch, SHA, and actual changed surface to `@testrunner` for targeted validation. TuoStudio uses `/home/wolfar/TuoStudio` and `nix develop --command pnpm ...`; wolfar-nix-config uses `/home/wolfar/wolfar-nix-config` and relevant Nix formatting/evaluation/build checks. A targeted pass is not a pre-PR gate.
+5. Send the original packet, candidate repository/path, branch, SHA, executor report, validation evidence, and candidate diff to the read-only `@reviewer`.
+6. For sensitive scope or diff—Supabase migrations/baseline; SQL policy, RLS, RPC, function, view, grant, trigger, or security context; function auth configuration; or privileged Supabase Edge Functions—also send the candidate diff, packet, canonical docs, and `supabase-migration-review` skill to `@database-security-reviewer`. Its `REQUEST_CHANGES` or `BLOCKED_REVIEW` blocks progress. Rerun it after each sensitive change.
+7. Route validation, reviewer, security, and debugger-informed fixes only to the original implementation owner. Any working tree, candidate commit, branch, or PR HEAD change invalidates targeted, general-review, security-review, full-verification, QA, and readiness evidence. Create/record the new clean candidate SHA and repeat all applicable checks against it.
+8. Once required review/security evidence passes on the candidate SHA, send the packet, repository/path, branch, and SHA verbatim to `@testrunner` in `full-pre-pr` mode. For TuoStudio it must run exactly `nix develop --command pnpm verify` against that exact clean candidate SHA. Missing, stale, or failed evidence blocks PR creation.
+9. Only immediately before merging, request fresh explicit user approval for that specific PR and exact HEAD. Any changed HEAD or intervening action invalidates the approval. Max three fix rounds; then ask the user.
 
-Spawn the reviewer via Task. Forward the original handoff packet, the executor's report, the canonical constraints, and the current diff.
+## Roadmap and local-dev routing
 
-```
-You are the reviewer. Review the ACTUAL diff against the handoff packet.
-<Packet>
-<Executor report>
-<Current diff>
-Classify every issue: implementation defect → executor; requirement/contract error → planner; scope/approval → orchestrator/user.
-```
+Use `@roadmap-driver` for read-only roadmap next/status briefs and `@manual-qa` only after collecting relevant independent review, conditional security review, and validation evidence. A dirty tree, missing exact SHA, stale validation, inaccessible environment, MCP failure, or contract mismatch produces `BLOCKED_HANDOFF`.
 
-### 5. Verification
+For only `tuo:local-dev`, `tuo:local-dev:seed`, `tuo:local-dev:status`, `tuo:local-dev:logs`, `tuo:local-dev:stop`, and `tuo:local-dev:restart`, the orchestrator may run precisely the command template's fixed diagnostic/session-management bash commands. This exception never permits source edits, VCS mutations, implementation, or arbitrary shell commands.
 
-If the reviewer approves, copy the ORIGINAL canonical self-contained 10-section handoff packet VERBATIM into the testrunner's Task prompt. The testrunner executes the packet's **section 8 validation matrix** and reports full output:
+## Rules
 
-- TuoStudio implementation/commit readiness: `nix develop --command pnpm verify`.
-- Nix/OpenCode changes: the packet's Nix evaluation/format checks (system rebuild excluded unless separately approved).
-
-If verification fails, send the full failure output to the implementation owner (or the read-only debugger for reproducible failures with supplied logs). The debugger returns root-cause findings to the implementation owner, who alone applies the fix.
-
-### 6. Decision handling
-
-- **approve**: Mark the task done. Present the final output to the user.
-- **request_changes**: Route feedback by classification:
-  - implementation defect → targeted executor correction.
-  - missing/incorrect requirement or contract conflict → planner revision of only the affected sections.
-  - scope/approval issue → orchestrator/user escalation.
-- If a task exceeds **3 fix rounds**, stop and ask the user for direction.
-
-## Rules for the orchestrator
-
-1. Always read subagent output yourself — never trust a summary alone.
-2. Exactly one implementation owner edits source files per task/round; @debugger and @reviewer are read-only and never edit.
-3. Preserve any unrelated dirty state in the working tree.
-4. Keep the user informed of each phase: "Planning...", "Implementing...", "Reviewing...", "Iterating...".
-5. When done, summarize: what was built, what was reviewed, how many rounds.
+1. Read complete subagent output; never trust a summary alone.
+2. Preserve unrelated dirty state.
+3. Never combine database + UI, admin + public, booking engine + styling, or email + schedule in one implementation task.
+4. TuoStudio work runs through `nix develop` with `pnpm`.
+5. Human approval is only a merge gate, immediately before merge of an exact HEAD.
