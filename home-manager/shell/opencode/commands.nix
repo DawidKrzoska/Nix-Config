@@ -94,7 +94,11 @@
           echo "TuoStudio local development is already running in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'"
         else
           tmux new-session -d -s tuo-local-dev -c /home/wolfar/TuoStudio 'nix develop --command pnpm local-dev'
-          echo "Started TuoStudio local development in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'"
+          if tmux has-session -t '=tuo-local-dev'; then
+            echo "Started TuoStudio local development in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'"
+          else
+            echo "Failed to start TuoStudio local development tmux session =tuo-local-dev."
+          fi
         fi
       '';
       description = "Start TuoStudio local development in its managed tmux session";

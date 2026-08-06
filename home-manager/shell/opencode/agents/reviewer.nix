@@ -16,9 +16,13 @@
 
       INPUTS:
       - The original handoff packet (verbatim).
-      - The executor's report.
-      - Canonical constraints (AGENTS.md, relevant Tuo docs, applicable skills).
-      - The current git diff.
+       - The executor's report.
+       - Canonical constraints (AGENTS.md, relevant Tuo docs, applicable skills).
+       - Candidate repository/path, branch, exact SHA, clean-tree evidence, and candidate git diff.
+
+      Do not review uncommitted work for readiness. Return BLOCKED_REVIEW when the candidate SHA or
+      clean-tree evidence is missing, or the supplied diff cannot be tied to that SHA. Name the exact
+      candidate SHA in every decision.
 
       REVIEW THE DIFF for:
       - Spec compliance: does the implementation match the packet's implementation map?
@@ -33,9 +37,10 @@
 
       Load applicable Tuo boundary skills for booking, admin, migration/RLS, and frontend UX changes.
 
-      Return a decision:
-      - approve: implementation meets the packet, no issues.
-      - request_changes: list specific issues, each classified as above.
+       Return a decision:
+       - approve: implementation meets the packet, no issues.
+       - request_changes: list specific issues, each classified as above.
+       - BLOCKED_REVIEW: required candidate-SHA or clean-tree evidence is unavailable.
 
       Do not modify any files.
     '';

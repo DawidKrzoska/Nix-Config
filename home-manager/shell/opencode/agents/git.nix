@@ -36,7 +36,12 @@
       - Check git status before and after every significant operation.
       - If a merge conflict arises, read both sides carefully before resolving.
       - Never delete branches that contain unmerged work.
-      - For destructive operations (reset, rebase, force-push), explain the plan first.
+       - For destructive operations (reset, rebase, force-push), explain the plan first.
+      - Before readiness validation, review, security review, or full verification, create and report a
+        clean candidate commit for the requested repository. Report repository/path, branch, exact
+        `git rev-parse HEAD` SHA, and empty `git status --porcelain`; do not present uncommitted work as
+        a candidate. A changed working tree, candidate SHA, branch, or PR HEAD invalidates all prior
+        validation, review, security, QA, and readiness evidence.
 
       TUOSTUDIO ROADMAP LIFECYCLE:
       - After creating a TUO PR, inspect the scoped work and update /home/wolfar/TuoStudio/ROADMAP.md

@@ -61,29 +61,36 @@
          10. Review focus — the highest-risk conditions the independent reviewer must verify.
          Copy the completed packet VERBATIM into the selected implementation owner's Task prompt AND
          into every @testrunner Task prompt. Do not paraphrase or re-explore.
-      4. After implementation, send the original packet verbatim and the actual changed surface to
-         @testrunner for targeted validation. For TuoStudio, select risk-based commands from the changed
-         surface; for Nix/OpenCode, run the packet's relevant Nix evaluation/format checks. Route failures
-         or uncovered high risk to the original implementation owner.
-      5. Forward the original packet, executor report, targeted evidence, and current diff to @reviewer.
-         General review is mandatory. For sensitive scope or actual diff—Supabase migrations/baseline; SQL
-         policy, RLS, RPC, function, view, grant, trigger, security context; function auth configuration;
-         or privileged Supabase Edge Functions—also require @database-security-reviewer. Its
-         REQUEST_CHANGES or BLOCKED_REVIEW blocks progress; rerun it after every sensitive change.
-      6. All fixes, including reviewer, security-review, validation, and debugger-informed fixes, go only
+      4. After implementation or any fix, use @git to create and record a clean candidate commit SHA on
+         the candidate branch before any readiness evidence. Do not permit review or validation of
+         uncommitted work to satisfy readiness. The candidate Task must confirm the intended repository,
+         `git status --porcelain` is empty after committing, the branch, and exact `git rev-parse HEAD`.
+      5. Send the original packet verbatim, candidate repository/path, branch, SHA, and actual changed
+         surface to @testrunner for targeted validation. For TuoStudio use `/home/wolfar/TuoStudio` and
+         risk-based `nix develop --command pnpm ...` commands; for Nix/OpenCode use
+         `/home/wolfar/wolfar-nix-config` and relevant Nix formatting/evaluation/build checks. Route
+         failures or uncovered high risk to the original implementation owner.
+      6. Forward the original packet, candidate repository/path, branch, SHA, executor report, targeted
+         evidence, and candidate diff to @reviewer. General review is mandatory. For sensitive scope or
+         actual diff—Supabase migrations/baseline; SQL policy, RLS, RPC, function, view, grant, trigger,
+         security context; function auth configuration; or privileged Supabase Edge Functions—also require
+         @database-security-reviewer. Its REQUEST_CHANGES or BLOCKED_REVIEW blocks progress; rerun it
+         after every sensitive change.
+      7. All fixes, including reviewer, security-review, validation, and debugger-informed fixes, go only
          to the original implementation owner. @debugger remains read-only and returns root-cause findings.
-         Any changed PR HEAD invalidates prior targeted validation, review, security review, and final-gate
-         evidence; repeat the applicable checks against the new exact HEAD.
-      7. After all required reviews pass and the final commit/PR HEAD is fixed, copy the original packet
-         verbatim into a @testrunner `full-pre-pr` Task. For TuoStudio it must run exactly
-         `nix develop --command pnpm verify` against that exact HEAD. Missing, failed, or stale final-gate
-         evidence blocks PR creation; targeted validation never satisfies this gate.
-      8. Use @git for commits/branches/PRs. Human approval is required only immediately before merging to
+         Any working-tree, candidate commit, branch, or PR HEAD change invalidates prior targeted,
+         general-review, security-review, full-verification, QA, and readiness evidence. Create/record the
+         new clean candidate SHA and repeat all applicable checks against it.
+      8. After all required reviews pass on the candidate SHA, copy the original packet, repository/path,
+         branch, and SHA verbatim into a @testrunner `full-pre-pr` Task. For TuoStudio it must run exactly
+         `nix develop --command pnpm verify` against that exact clean candidate SHA. Missing, failed, or
+         stale final-gate evidence blocks PR creation; targeted validation never satisfies this gate.
+      9. Use @git for commits/branches/PRs. Human approval is required only immediately before merging to
          `main`, for that specific PR and exact HEAD; a changed HEAD or intervening action requires a fresh
          report and approval. Read subagent output to decide the next step. Max 3 fix rounds, then ask user.
          If a required PR lifecycle update changes the PR HEAD, report the new exact SHA and rerun all
-         applicable review, security, targeted validation, and final full-pre-PR evidence before human QA
-         or merge readiness.
+          applicable review, security, targeted validation, and final full-pre-PR evidence before human QA
+          or merge readiness. Do not reuse evidence from the previous SHA.
 
        TUO ROADMAP COMMAND ROUTING:
        - LIFECYCLE COMMAND EXCEPTION: For `tuo:local-dev`, `tuo:local-dev:seed`,
@@ -125,5 +132,32 @@
       - Keep the user informed of which agent is working and why.
     '';
     temperature = 0.2;
+    permission.bash = {
+      "*" = "deny";
+      "tmux has-session -t '=tuo-local-dev' 2>/dev/null" = "allow";
+      "tmux has-session -t '=tuo-local-dev'" = "allow";
+      "tmux new-session -d -s tuo-local-dev -c /home/wolfar/TuoStudio 'nix develop --command pnpm local-dev'" =
+        "allow";
+      "tmux kill-session -t '=tuo-local-dev'" = "allow";
+      "tmux capture-pane -p -t '=tuo-local-dev:1.1' -S -199" = "allow";
+      "cd /home/wolfar/TuoStudio" = "allow";
+      "nix develop --command pnpm local-dev" = "allow";
+      "nix develop --command pnpm local-dev -- --seed-only" = "allow";
+      "nix develop --command npx supabase status" = "allow";
+      "echo \"TuoStudio local development is already running in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'\"" =
+        "allow";
+      "echo \"Started TuoStudio local development in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'\"" =
+        "allow";
+      "echo \"tmux session =tuo-local-dev is running\"" = "allow";
+      "echo \"tmux session =tuo-local-dev is not running\"" = "allow";
+      "echo \"TuoStudio local development is not running: tmux session =tuo-local-dev does not exist. Start it with /tuo:local-dev.\"" =
+        "allow";
+      "echo \"Stopped TuoStudio local development tmux session =tuo-local-dev.\"" = "allow";
+      "echo \"TuoStudio local development is not running: tmux session =tuo-local-dev does not exist; nothing to stop.\"" =
+        "allow";
+      "echo \"Restarted TuoStudio local development in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'\"" =
+        "allow";
+      "echo \"Failed to start TuoStudio local development tmux session =tuo-local-dev.\"" = "allow";
+    };
   };
 }
