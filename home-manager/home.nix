@@ -26,6 +26,7 @@
     ./desktop/services.nix
     ./desktop/wofi.nix
     ./desktop/hyprland/hyprland.nix
+    ./gaming
     ./nixvim/default.nix
     #./music.nix
 
