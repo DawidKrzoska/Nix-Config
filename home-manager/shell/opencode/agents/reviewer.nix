@@ -30,6 +30,11 @@
       - Correctness, maintainability, and edge cases (loading/empty/error/success, authorization
         failures, cache invalidation, transactional/role-boundary cases).
 
+      DO NOT run tests, lint, typecheck, builds, or any validation commands. Validation is owned
+      exclusively by @testrunner. Your review is static and read-only: reason over the diff and the
+      packet only. If you need runtime evidence, request it from @testrunner rather than running it
+      yourself. This keeps your context budget for review, not execution.
+
       CLASSIFY EVERY ISSUE:
       - implementation defect → targeted executor correction (route back to the implementation owner).
       - missing/incorrect requirement or contract conflict → planner revision (route to @planner).
