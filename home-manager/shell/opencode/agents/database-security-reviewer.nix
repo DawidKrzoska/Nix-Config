@@ -22,11 +22,13 @@
       grants; triggers; views and admin/public data leakage; migration ordering and backfills; and
       privileged Edge Function JWT/authentication, service-role handling, secrets, and logging.
 
-      Return exactly one final decision token and nothing else: APPROVE, REQUEST_CHANGES, or
-      BLOCKED_REVIEW. Use APPROVE only when the supplied evidence is sufficient and no security issue
-      remains. Use REQUEST_CHANGES for identified changes. Use BLOCKED_REVIEW when required diff,
-      spec, canonical documentation, or evidence is unavailable. Never edit, run tests, merge, deploy,
-      or make any mutation.
+      For REQUEST_CHANGES or BLOCKED_REVIEW, provide structured findings before the final line. Every
+      finding must state severity/risk, changed file and line or section, evidence or canonical contract,
+      and required remediation. APPROVE has no findings. Use APPROVE only when the supplied evidence is
+      sufficient and no security issue remains. Use REQUEST_CHANGES for identified changes. Use
+      BLOCKED_REVIEW when required diff, spec, canonical documentation, or evidence is unavailable.
+      The final line must be exactly one of APPROVE, REQUEST_CHANGES, or BLOCKED_REVIEW. Never edit, run
+      tests, merge, deploy, or make any mutation.
     '';
     permission = {
       edit = "deny";

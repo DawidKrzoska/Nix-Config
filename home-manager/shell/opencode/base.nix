@@ -8,7 +8,7 @@
 {
   "$schema" = "https://opencode.ai/config.json";
   default_agent = "orchestrator";
-  model = "openai/gpt-5.6-terra";
+  model = "openai/gpt-5.6-sol";
   small_model = "openai/gpt-5.4-mini-fast";
   autoupdate = "notify";
   instructions = [ "AGENTS.md" ];

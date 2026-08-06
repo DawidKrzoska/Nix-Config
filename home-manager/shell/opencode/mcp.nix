@@ -22,11 +22,9 @@
     playwright = {
       type = "local";
       command = [
-        "npx"
-        "-y"
-        "@playwright/mcp"
-        "--browser"
-        "firefox"
+        "${pkgs.playwright-mcp}/bin/playwright-mcp"
+        "--headless"
+        "--isolated"
       ];
       enabled = true;
     };

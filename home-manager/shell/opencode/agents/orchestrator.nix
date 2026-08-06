@@ -81,6 +81,9 @@
       8. Use @git for commits/branches/PRs. Human approval is required only immediately before merging to
          `main`, for that specific PR and exact HEAD; a changed HEAD or intervening action requires a fresh
          report and approval. Read subagent output to decide the next step. Max 3 fix rounds, then ask user.
+         If a required PR lifecycle update changes the PR HEAD, report the new exact SHA and rerun all
+         applicable review, security, targeted validation, and final full-pre-PR evidence before human QA
+         or merge readiness.
 
        TUO ROADMAP COMMAND ROUTING:
        - LIFECYCLE COMMAND EXCEPTION: For `tuo:local-dev`, `tuo:local-dev:seed`,
