@@ -85,6 +85,19 @@ in
       animations = {
         enabled = true;
       };
+
+      # Awakened PoE Trade overlay: transparent window on top of the game.
+      # Disable blur/border/shadow so the overlay renders cleanly, float+pin it.
+      # Hyprland 0.55 requires explicit effect values and `match:` prefixed matchers;
+      # `decorate off` is the 0.55 replacement for the removed `noborder` rule.
+      windowrule = [
+        "float on, match:class ^(awakened-poe-trade)$"
+        "no_blur on, match:class ^(awakened-poe-trade)$"
+        "decorate off, match:class ^(awakened-poe-trade)$"
+        "no_shadow on, match:class ^(awakened-poe-trade)$"
+        "pin on, match:class ^(awakened-poe-trade)$"
+        "no_focus on, match:class ^(awakened-poe-trade)$"
+      ];
     };
 
     extraConfig = ''
