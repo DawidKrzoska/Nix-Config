@@ -45,15 +45,20 @@
         };
       };
 
-      # Standalone home-manager configuration entrypoint
-      # Available through 'home-manager --flake .#your-username@your-hostname'
+      # Standalone home-manager configuration entrypoints.
       homeConfigurations = {
-        # FIXME replace with your username@hostname
         "wolfar@nixos" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
-          # > Our main home-manager configuration file <
           modules = [ ./home-manager/home.nix ];
+        };
+
+        # Apple Silicon macOS CLI-only profile. It intentionally does not use
+        # nix-darwin and does not import the Linux desktop or gaming modules.
+        "dawid@macbook" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home-manager/darwin.nix ];
         };
       };
     };
