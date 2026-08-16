@@ -43,8 +43,8 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = inputs.opencode.packages.x86_64-linux.default;
-      defaultText = lib.literalExpression "inputs.opencode.packages.x86_64-linux.default";
+      default = inputs.opencode.packages.${pkgs.system}.default;
+      defaultText = lib.literalExpression "inputs.opencode.packages.${pkgs.system}.default";
       description = "opencode package to use";
     };
   };
