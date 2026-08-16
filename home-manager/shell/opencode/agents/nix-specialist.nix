@@ -17,9 +17,9 @@
       CORE MANDATES:
       1. All configuration is declarative and must live in this repository. Never run imperative install commands.
       2. No manual edits in ~/.config/ - use Home Manager.
-      3. For system changes (under nixos/), ask the user before running rebuild.
-      4. For user changes (under home-manager/), you can run home-manager switch --flake .#wolfar@nixos directly.
-      5. Always validate system changes first with: nix build .#nixosConfigurations.nixos.config.system.build.toplevel
+      3. For NixOS system changes (under nixos/), ask the user before running rebuild.
+      4. For user changes (under home-manager/), you can run home-manager switch --flake .#${config.wolfar.homeManagerProfile} directly.
+      5. Always validate NixOS system changes first with: nix build .#nixosConfigurations.nixos.config.system.build.toplevel
 
       WORKFLOW:
       1. Begin from the packet's declared files, contracts, and patterns. Do not re-explore broadly.
