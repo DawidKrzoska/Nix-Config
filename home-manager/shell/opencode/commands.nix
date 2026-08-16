@@ -60,7 +60,7 @@
       description = "Verify entire flake evaluation correctness";
     };
     apply-home = {
-      template = "Switch home-manager configuration: home-manager switch --flake .#wolfar@nixos";
+      template = "Switch home-manager configuration: home-manager switch --flake .#${config.wolfar.homeManagerProfile}";
       description = "Apply user/home configurations immediately";
     };
     docker-status = {
@@ -93,7 +93,7 @@
         if tmux has-session -t '=tuo-local-dev' 2>/dev/null; then
           echo "TuoStudio local development is already running in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'"
         else
-          tmux new-session -d -s tuo-local-dev -c /home/wolfar/TuoStudio 'nix develop --command pnpm local-dev'
+          tmux new-session -d -s tuo-local-dev -c ${config.wolfar.paths.tuoStudio} 'nix develop --command pnpm local-dev'
           if tmux has-session -t '=tuo-local-dev'; then
             echo "Started TuoStudio local development in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'"
           else
@@ -107,7 +107,7 @@
     "tuo:local-dev:seed" = {
       template = ''
         Run the following TuoStudio local-only seed command in the foreground:
-        cd /home/wolfar/TuoStudio && nix develop --command pnpm local-dev -- --seed-only
+        cd ${config.wolfar.paths.tuoStudio} && nix develop --command pnpm local-dev -- --seed-only
         This intentionally exits after seeding and must never target hosted Supabase.
       '';
       description = "Seed local TuoStudio Supabase data and exit";
@@ -121,7 +121,7 @@
         else
           echo "tmux session =tuo-local-dev is not running"
         fi
-        cd /home/wolfar/TuoStudio && nix develop --command npx supabase status
+        cd ${config.wolfar.paths.tuoStudio} && nix develop --command npx supabase status
       '';
       description = "Report managed tmux and local Supabase status without changing state";
       agent = "orchestrator";
@@ -157,7 +157,7 @@
         if tmux has-session -t '=tuo-local-dev' 2>/dev/null; then
           tmux kill-session -t '=tuo-local-dev'
         fi
-        tmux new-session -d -s tuo-local-dev -c /home/wolfar/TuoStudio 'nix develop --command pnpm local-dev'
+        tmux new-session -d -s tuo-local-dev -c ${config.wolfar.paths.tuoStudio} 'nix develop --command pnpm local-dev'
         if tmux has-session -t '=tuo-local-dev' 2>/dev/null; then
           echo "Restarted TuoStudio local development in tmux session =tuo-local-dev. Inspect it with: tmux attach -t '=tuo-local-dev'"
         else
