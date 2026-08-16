@@ -60,17 +60,17 @@
     permission = {
       question = "allow";
       bash = {
-        "git -C /home/wolfar/TuoStudio status --short --branch" = "allow";
-        "git -C /home/wolfar/TuoStudio diff -- ROADMAP.md" = "allow";
-        "git -C /home/wolfar/TuoStudio diff --cached -- ROADMAP.md" = "allow";
+        "git -C ${config.wolfar.paths.tuoStudio} status --short --branch" = "allow";
+        "git -C ${config.wolfar.paths.tuoStudio} diff -- ROADMAP.md" = "allow";
+        "git -C ${config.wolfar.paths.tuoStudio} diff --cached -- ROADMAP.md" = "allow";
         "*" = "deny";
       };
       edit = {
-        "/home/wolfar/TuoStudio/ROADMAP.md" = "ask";
+        "${config.wolfar.paths.tuoStudio}/ROADMAP.md" = "ask";
         "*" = "deny";
       };
       external_directory = {
-        "/home/wolfar/TuoStudio/**" = "allow";
+        "${config.wolfar.paths.tuoStudio}/**" = "allow";
         "*" = "deny";
       };
       task = "deny";
