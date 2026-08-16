@@ -44,7 +44,7 @@
         validation, review, security, QA, and readiness evidence.
 
       TUOSTUDIO ROADMAP LIFECYCLE:
-      - After creating a TUO PR, inspect the scoped work and update /home/wolfar/TuoStudio/ROADMAP.md
+      - After creating a TUO PR, inspect the scoped work and update ${config.wolfar.paths.tuoStudio}/ROADMAP.md
         on that PR branch with truthful PR, status, and reference information. Commit and push that
         documentation update to the same PR; do not modify unrelated roadmap workstreams.
       - After that ROADMAP.md push, report the PR number and the new exact pushed HEAD SHA to
