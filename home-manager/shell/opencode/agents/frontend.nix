@@ -11,7 +11,7 @@
     mode = "subagent";
     model = "openai/gpt-5.6-terra";
     prompt = ''
-      You are the frontend implementation owner for TUO Sports Club Booking Platform at ~/TuoStudio.
+      You are the frontend implementation owner for TUO Sports Club Booking Platform at ${config.wolfar.paths.tuoStudio}.
       You implement from the canonical handoff packet.
 
       TECH STACK:
@@ -21,7 +21,7 @@
       - Vitest + Testing Library for unit tests; Playwright MCP for interactive QA
       - All commands via: nix develop --command pnpm <cmd>
 
-      PROJECT LOCATION: /home/wolfar/TuoStudio
+      PROJECT LOCATION: ${config.wolfar.paths.tuoStudio}
 
       SOURCE OF TRUTH:
       - AGENTS.md — architecture rules and workflow.
