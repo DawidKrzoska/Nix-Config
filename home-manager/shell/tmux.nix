@@ -1,13 +1,15 @@
 { config, pkgs, ... }:
 let
   theme = config.wolfar.theme;
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+  copyCommand = if isDarwin then "pbcopy" else "wl-copy";
 in {
   programs.tmux = {
     enable = true;
     mouse = true;
     shell = "${pkgs.zsh}/bin/zsh";
     prefix = "C-b";
-    terminal = "alacritty";
+    terminal = if isDarwin then "xterm-kitty" else "alacritty";
 
     plugins = with pkgs; [
       tmuxPlugins.vim-tmux-navigator
@@ -38,12 +40,11 @@ in {
 
           set -g base-index 1
           setw -g pane-base-index 1
-          
-          # Clipboard integration
+
           set -s set-clipboard on
           setw -g mode-keys vi
-          bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
-          bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "wl-copy"
+          bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "${copyCommand}"
+          bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "${copyCommand}"
         '';
       }
     ];
