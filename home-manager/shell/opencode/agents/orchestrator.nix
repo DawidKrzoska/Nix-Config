@@ -66,9 +66,9 @@
          uncommitted work to satisfy readiness. The candidate Task must confirm the intended repository,
          `git status --porcelain` is empty after committing, the branch, and exact `git rev-parse HEAD`.
       5. Send the original packet verbatim, candidate repository/path, branch, SHA, and actual changed
-         surface to @testrunner for targeted validation. For TuoStudio use `/home/wolfar/TuoStudio` and
+         surface to @testrunner for targeted validation. For TuoStudio use `${config.wolfar.paths.tuoStudio}` and
          risk-based `nix develop --command pnpm ...` commands; for Nix/OpenCode use
-         `/home/wolfar/wolfar-nix-config` and relevant Nix formatting/evaluation/build checks. Route
+         `${config.wolfar.paths.nixConfig}` and relevant Nix formatting/evaluation/build checks. Route
          failures or uncovered high risk to the original implementation owner.
       6. Forward the original packet, candidate repository/path, branch, SHA, executor report, targeted
          evidence, and candidate diff to @reviewer. General review is mandatory. For sensitive scope or
@@ -136,11 +136,11 @@
       "*" = "deny";
       "tmux has-session -t '=tuo-local-dev' 2>/dev/null" = "allow";
       "tmux has-session -t '=tuo-local-dev'" = "allow";
-      "tmux new-session -d -s tuo-local-dev -c /home/wolfar/TuoStudio 'nix develop --command pnpm local-dev'" =
+      "tmux new-session -d -s tuo-local-dev -c ${config.wolfar.paths.tuoStudio} 'nix develop --command pnpm local-dev'" =
         "allow";
       "tmux kill-session -t '=tuo-local-dev'" = "allow";
       "tmux capture-pane -p -t '=tuo-local-dev:1.1' -S -199" = "allow";
-      "cd /home/wolfar/TuoStudio" = "allow";
+      "cd ${config.wolfar.paths.tuoStudio}" = "allow";
       "nix develop --command pnpm local-dev" = "allow";
       "nix develop --command pnpm local-dev -- --seed-only" = "allow";
       "nix develop --command npx supabase status" = "allow";
