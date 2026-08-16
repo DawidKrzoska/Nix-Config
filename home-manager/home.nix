@@ -14,6 +14,7 @@
     # inputs.nix-colors.homeManagerModule
 
     # You can also split up your configuration and import pieces of it here:
+    ./modules/paths.nix
     ./modules/theme.nix
     ./shell/alacritty.nix
     ./shell/cli.nix
@@ -60,6 +61,8 @@
     username = "wolfar";
     homeDirectory = "/home/wolfar";
   };
+
+  wolfar.homeManagerProfile = "wolfar@nixos";
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
