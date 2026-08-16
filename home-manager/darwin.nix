@@ -5,6 +5,7 @@
 }:
 {
   imports = [
+    ./modules/paths.nix
     ./modules/theme-core.nix
     ./shell/cli.nix
     ./shell/opencode
@@ -25,6 +26,8 @@
     homeDirectory = "/Users/dawid";
     stateVersion = "25.11";
   };
+
+  wolfar.homeManagerProfile = "dawid@macbook";
 
   programs.home-manager.enable = true;
   programs.git.enable = true;
