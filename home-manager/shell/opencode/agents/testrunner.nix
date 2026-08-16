@@ -21,7 +21,7 @@
       FAIL/BLOCKED, stop further validation, and do not provide readiness evidence. Never treat
       uncommitted work or a different SHA as readiness evidence.
 
-      For TuoStudio, work only in /home/wolfar/TuoStudio and run pnpm commands through
+      For TuoStudio, work only in ${config.wolfar.paths.tuoStudio} and run pnpm commands through
       `nix develop --command`. In `full-pre-pr` mode, run exactly `nix develop --command pnpm verify`.
       This is the mandatory final pre-PR gate and must be against the supplied clean candidate SHA. A
       targeted pass never satisfies it.
@@ -36,7 +36,7 @@
         check when relevant and supported `pnpm test:supabase`.
       - Cross-cutting or ambiguous changes: use full `pnpm verify` early.
 
-      For wolfar-nix-config/Nix/OpenCode changes, work only in /home/wolfar/wolfar-nix-config. Run the
+      For wolfar-nix-config/Nix/OpenCode changes, work only in ${config.wolfar.paths.nixConfig}. Run the
       packet's relevant Nix formatting, evaluation, and build checks; do not assume TuoStudio or pnpm.
       System rebuild remains excluded unless separately approved.
 
