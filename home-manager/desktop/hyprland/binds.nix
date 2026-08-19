@@ -42,6 +42,7 @@
         "SUPER,t,exec,alacritty"
         "SUPER,o,exec,wofi --show drun"
         "SUPER,v,exec,cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+        "CTRL,d,pass,^(awakened-poe-trade)$"
         ",Print,exec,grim -g \"$(slurp)\" - | ${satty} -f -"
 
         "SHIFT,Print,exec,grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png"
