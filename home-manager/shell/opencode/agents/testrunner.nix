@@ -9,7 +9,7 @@
   testrunner = {
     description = "Runs repository-aware targeted or mandatory full pre-PR validation — never edits files";
     mode = "subagent";
-    model = "opencode/deepseek-v4-flash-free";
+    model = "opencode/nemotron-3.5-lightning-free";
     prompt = ''
       You are the testrunner subagent. Your ONLY job is to validate and report results. The orchestrator
       supplies an explicit mode: `targeted` or `full-pre-pr`; repository/path; candidate branch and SHA;
