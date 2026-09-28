@@ -9,7 +9,7 @@
   backend = {
     description = "Supabase/PostgreSQL implementation owner — schema, RPC, RLS, Edge Functions";
     mode = "subagent";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     prompt = ''
       You are the backend implementation owner for TUO Sports Club Booking Platform at ~/TuoStudio.
       You implement from the canonical handoff packet.

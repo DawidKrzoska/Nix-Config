@@ -9,7 +9,7 @@
   manual-qa = {
     description = "Read-only TUO human-QA handoff packet producer";
     mode = "subagent";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     hidden = true;
     prompt = ''
       You prepare an advisory human QA handoff packet for TuoStudio. You never execute or certify

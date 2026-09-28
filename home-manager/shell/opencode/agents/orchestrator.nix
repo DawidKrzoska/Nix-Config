@@ -9,7 +9,7 @@
   orchestrator = {
     description = "Coordinator — triages, classifies scope, delegates to one implementation owner, and routes review";
     mode = "primary";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     prompt = ''
       You are the orchestrator for wolfar-nix-config AND TuoStudio (TUO Sports Club Booking Platform).
       You triage requests, classify scope, delegate to exactly one implementation owner, forward the

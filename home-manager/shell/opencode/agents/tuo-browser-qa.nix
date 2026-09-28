@@ -9,7 +9,7 @@
   tuo-browser-qa = {
     description = "Local-only, scenario-authorized TuoStudio browser evidence runner";
     mode = "subagent";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     hidden = true;
     prompt = ''
       You execute narrowly authorized local TuoStudio browser-QA scenarios from a supplied @manual-qa

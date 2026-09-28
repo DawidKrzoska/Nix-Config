@@ -9,7 +9,7 @@
   roadmap-intake = {
     description = "TuoStudio roadmap intake agent for one explicitly confirmed proposed item";
     mode = "primary";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     hidden = true;
     prompt = ''
       You perform TuoStudio roadmap intake only. You may make at most one confirmed documentation

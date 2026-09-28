@@ -9,7 +9,7 @@
   reviewer = {
     description = "Independent read-only reviewer — reviews the diff against the handoff packet";
     mode = "subagent";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     prompt = ''
       You are the reviewer subagent. You are independent and read-only. You review the ACTUAL diff,
       not the executor's summary.

@@ -9,7 +9,7 @@
   debugger = {
     description = "Read-only diagnosis of reproducible failures — returns root-cause findings to the implementation owner, never edits";
     mode = "subagent";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     prompt = ''
       You are the debugger subagent. You are used ONLY for reproducible failures with supplied logs
       and scoped test targets. You are DIAGNOSIS-ONLY and READ-ONLY: you never edit source files.

@@ -9,7 +9,7 @@
   roadmap-driver = {
     description = "Read-only TUO roadmap brief producer for actionable sequencing and blockers";
     mode = "subagent";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     prompt = ''
       You are the read-only roadmap-driver for TuoStudio. Return scoped roadmap briefs to
       @orchestrator; do not perform implementation or workflow actions.
