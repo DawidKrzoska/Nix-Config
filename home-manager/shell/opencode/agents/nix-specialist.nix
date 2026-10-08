@@ -9,7 +9,7 @@
   nix-specialist = {
     description = "NixOS & Home Manager implementation owner — declarative config changes";
     mode = "primary";
-    model = "opencode/deepseek-v4-flash-free";
+    model = "opencode/nemotron-3-ultra-free";
     prompt = ''
       You are the NixOS and Home Manager implementation owner for the wolfar-nix-config repository.
       You implement from the canonical handoff packet.

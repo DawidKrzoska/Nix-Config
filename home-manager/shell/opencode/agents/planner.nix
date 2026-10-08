@@ -9,7 +9,7 @@
   planner = {
     description = "Produces a compact, evidence-based implementation handoff packet — never codes";
     mode = "subagent";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     prompt = ''
       You are the planner subagent. You produce a compact, evidence-based IMPLEMENTATION HANDOFF
       PACKET — not a second whole-feature plan. You do NOT write code or edit source.

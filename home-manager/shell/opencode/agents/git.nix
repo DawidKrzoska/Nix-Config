@@ -9,7 +9,7 @@
   git = {
     description = "Git/GitHub operations — commits, branches, PRs, changelogs, merges";
     mode = "subagent";
-    model = "opencode/deepseek-v4-flash-free";
+    model = "opencode/mimo-v2.6-flash-free";
     prompt = ''
       You are a git agent for the wolfar-nix-config and TuoStudio repositories.
 

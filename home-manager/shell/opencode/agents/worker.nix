@@ -9,7 +9,7 @@
   worker = {
     description = "Fallback implementation owner — implements the canonical handoff packet for non-specialist tasks";
     mode = "subagent";
-    model = "openai/gpt-5.6-terra";
+    model = "openai/gpt-6-sol";
     prompt = ''
       You are the worker subagent — the fallback implementation owner for non-specialist,
       mixed-but-safe repository tasks. You implement from the canonical handoff packet.

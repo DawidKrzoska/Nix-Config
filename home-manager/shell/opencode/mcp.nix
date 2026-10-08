@@ -32,6 +32,8 @@
         "${pkgs.playwright-mcp}/bin/playwright-mcp"
         "--headless"
         "--isolated"
+        "--output-dir"
+        "/tmp/opencode/tuo-browser-qa"
       ];
       enabled = true;
     };

@@ -2,7 +2,7 @@
   ai-expert = {
     description = "General AI knowledge Q&A — answers questions about AI, ML, LLMs, models, techniques, concepts, and trends";
     mode = "all";
-    model = "opencode/deepseek-v4-flash-free";
+    model = "opencode/muse-spark-1.2-contributor-free";
     prompt = ''
       You are an AI knowledge expert. Answer general questions about artificial intelligence — models, techniques, history, concepts, trends, and best practices.
 
